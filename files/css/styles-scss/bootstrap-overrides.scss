@@ -1,0 +1,55 @@
+﻿@import "variables";
+@import "mixins";
+
+
+.btn {
+    font-size: .9rem;
+    font-weight: 600;
+    padding: .5625rem 1.5rem;
+    line-height: 1.5rem;
+}
+
+.btn-info-alt{
+    @include button-variant($info,$info);
+}
+
+.btn-info-light {
+    @include button-variant(#AAABF0,#AAABF0);
+}
+
+.btn-primary-dark {
+    @include button-variant(#1D2659,#1D2659);
+}
+
+.btn-primary-light {
+    @include button-variant(#4CA2FF,#4CA2FF);
+}
+
+.btn-lg{
+    padding:17px 50px;
+    font-size:14px;
+    line-height:18px;
+    font-weight:600;
+}
+
+
+.alert{
+    font-size:.875rem;
+}
+
+@include media-breakpoint-down(xl) {
+
+}
+
+@include media-breakpoint-down(md) {
+
+}
+
+
+@include media-breakpoint-down(sm) {
+
+}
+
+@media (max-width: 450px){
+
+}

@@ -1,0 +1,63 @@
+﻿.nav-link {
+    color: #827c84 !important;
+} 
+.dropdown-item {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #827c84 !important;
+}
+
+
+.dropdown-item:hover, .dropdown-item:active, .dropdown-item:focus {
+    color: #fff!important;
+    background-color: #88bd23;
+}
+a.dropdown-item {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    color: #827c84;
+    display: block;
+    padding: 0 15px;
+}
+
+.dropdown-menu {
+    background: #ffffff;
+    padding: 0 15px 10px 15px;
+    z-index: 999999;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    min-width: 150px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+
+/*
+font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
+;
+
+header .bottom-header .main-menu li a {
+    font-size: 16px;
+    color: #827c84;
+    display: block;
+    padding: 0 30px;
+}
+header .bottom-header .main-menu li ul li .dropit-submenu {
+    display: none !important;
+
+    header .bottom-header .main-menu li ul {
+        background: #ffffff;
+        padding: 0 15px 10px 15px;
+        z-index: 999999;
+
+        header .bottom-header .main-menu li ul li {
+            white-space: nowrap;
+            line-height: 16px;
+            margin-bottom: 5px;
+            display: block;
+            text-transform: lowercase;
+        }*/
+

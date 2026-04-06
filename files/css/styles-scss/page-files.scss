@@ -1,0 +1,161 @@
+﻿@import "variables";
+@import "mixins";
+
+$file-color-word: #2b579a;
+$file-color-excel: #217346;
+$file-color-powerpoint: #b7472a;
+$file-color-pdf: #d40000;
+$file-color-text: #eee;
+$file-color-code: #007acc;
+$file-color-photo: #ff791a;
+
+
+
+@mixin file-icon($name: "file",$bgcolor: #eee,$color: #353535){
+    .page-files-file {
+        &.file-#{$name} {
+            span.file-type-icon {
+                background: $bgcolor;
+                @include transform(1s);
+
+                i {
+                    color: $color;
+                }
+            }
+        }
+
+        &:hover {
+            &.file-#{$name} {
+                span.file-type-icon {
+                    background: darken($bgcolor,10%);
+                }
+            }
+        }
+    }
+}
+
+
+.page-photos {
+
+    h3, h4, h5 {
+        font-family: $font-family-title;
+        margin-top: 50px;
+    }
+}
+
+.page-files {
+    padding-top: 50px;
+
+    h3, h4, h5 {
+        font-family: $font-family-title;
+    }
+}
+
+.page-files-file {
+    min-height: 60px;
+    display: block;
+    padding: 0;
+    border: solid 1px #eee;
+    margin-bottom: 15px;
+    text-decoration: none;
+    color: #000;
+    position: relative;
+    @include clearfix();
+    overflow: hidden;
+
+
+    span.file-type-icon {
+        font-size: 1.5em;
+        display: block;
+        vertical-align: middle;
+        background: #eee;
+        text-align: center;
+        width: 60px;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        position: absolute;
+
+        i {
+            width: 100%;
+            top: 50%;
+            position: absolute;
+            display: block;
+            margin: 0;
+            padding: 0;
+            margin-top: -12px;
+        }
+    }
+
+    span.file-name {
+        margin-left: 63px;
+        display: block;
+        right: 0;
+        padding: 7px;
+        //padding-right:47px;
+    }
+
+    span.file-path {
+        display: block;
+        font-size: 12px;
+        color: #BBB;
+        padding-top: 5px;
+        -ms-text-overflow: ellipsis;
+        -o-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+    }
+
+    span.file-size {
+        display: block;
+        font-size: 13px;
+        color: #CCC;
+    }
+
+    .download-icon {
+        display: none;
+
+        @include transition(4s);
+        position: absolute;
+        right: -40px;
+        top: 0;
+        bottom: 0;
+        width: 40px;
+        text-align: center;
+        opacity: 0;
+        background: rgba(0,0,0,0.1);
+
+
+        i {
+            width: 100%;
+            top: 50%;
+            position: absolute;
+            display: block;
+            margin: 0;
+            padding: 0;
+            margin-top: -12px;
+        }
+    }
+
+
+    &:hover {
+        text-decoration: none;
+        background-color: #f0f0f0;
+
+        .download-icon {
+            opacity: 1;
+            right: 0;
+        }
+
+        span.file-type-icon {
+            background: darken(#eee,10%);
+        }
+    }
+}
+
+@include file-icon(photo,$file-color-photo,#FFF);
+@include file-icon(word,$file-color-word,#FFF);
+@include file-icon(excel,$file-color-excel,#FFF);
+@include file-icon(powerpoint,$file-color-powerpoint,#FFF);
+@include file-icon(text,$file-color-code,#FFF);
+@include file-icon(code,$file-color-code,#FFF);
+@include file-icon(pdf,$file-color-pdf,#FFF);

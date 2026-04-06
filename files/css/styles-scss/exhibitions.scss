@@ -1,0 +1,319 @@
+﻿@import "variables";
+@import "mixins";
+
+.list-exhibitions {
+    padding: 50px 0;
+
+    .empty-result {
+        background: #f3f3f3;
+        padding: 50px;
+        text-align: center;
+        color: #555;
+
+        i {
+            color: #999;
+            margin-bottom: 30px;
+        }
+    }
+
+    .loading {
+        text-align: center;
+        padding: 40px;
+        background: #f7f7f7;
+        border-radius: 8px;
+        color: #999;
+    }
+
+    .exhibition {
+        margin-bottom: 30px;
+        background: #f7f7f7;
+        padding: 20px 30px;
+        border-radius: 8px;
+        position: relative;
+        cursor: pointer;
+        @include transition();
+        overflow: hidden;
+
+        &:after {
+            content: "";
+            position: absolute;
+            z-index: 1;
+            left: 0;
+            width: 0;
+            @include transition();
+            top: 0;
+            bottom: 0;
+            overflow: hidden;
+            background: $primary;
+            opacity: 0;
+        }
+
+        .hover-overlay {
+            position: absolute;
+            z-index: 5;
+            left: 0;
+            right: 0;
+            top: -100%;
+            bottom: 0;
+            overflow: hidden;
+            background: rgba(10,0,255,.9);
+            opacity: 0;
+            @include transition();
+            color: #FFF;
+            text-align: center;
+            font-weight: 700;
+            font-size: 20px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            border-radius: 8px;
+
+            i {
+                margin-bottom: 7px;
+            }
+        }
+
+        .type {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            display: block;
+            background: #ddd;
+            color: #555;
+            font-size: 14px;
+            text-transform: uppercase;
+            padding: 2px 5px;
+        }
+
+        .date {
+            background: #fff;
+            text-align: center;
+            padding: 10px 0;
+            line-height: normal;
+            width: 90px;
+            border-radius: 4px;
+            @include shadow1();
+            position: relative;
+            z-index: 3;
+            @include transition();
+
+            .day {
+                font-size: 42px;
+                font-weight: 800;
+                line-height: 40px;
+            }
+
+            .month {
+                text-transform: uppercase;
+                font-size: 20px;
+            }
+
+            .year {
+                font-size: 13px;
+            }
+        }
+
+        .details {
+            position: relative;
+            margin-left: 20px;
+            font-size: 14px;
+            color: #777;
+            line-height: normal;
+            padding-top: 10px;
+            position: relative;
+            z-index: 3;
+            @include transition();
+
+
+
+            .name {
+                color: #000;
+                font-size: 20px;
+                font-weight: 700;
+                @include transition();
+            }
+
+            .organizer {
+                @include transition();
+            }
+
+            .application {
+                padding-top: 20px;
+                color: #333;
+                font-size: 16px;
+                @include transition();
+
+                .lbl {
+                    font-size: 13px;
+                    color: #777;
+                }
+            }
+
+            .subject {
+                @include transition();
+                display: none;
+            }
+
+            .location {
+                @include transition();
+                text-transform: uppercase;
+            }
+        }
+
+        .arrow {
+            padding-left: 20px;
+            margin-left: auto;
+            color: #888;
+        }
+
+        .calculator {
+            display: none;
+            margin-top: 30px;
+            padding: 0 30px;
+            height: 0;
+            overflow: hidden;
+            @include transition();
+
+            input {
+                font-size: 22px;
+            }
+
+            .support {
+                padding: 20px 0;
+
+                label {
+                    opacity: .6;
+                    font-size: 17px;
+                    font-weight: 500;
+                }
+
+                .amount {
+                    font-size: 47px;
+                    line-height: 52px;
+                }
+
+                .rate {
+                    font-weight: normal;
+                    font-size: 14px;
+
+                    span {
+                        font-weight: 700;
+                    }
+                }
+            }
+        }
+
+        &.active {
+            padding-bottom: 300px;
+            cursor: default;
+
+            .calculator {
+                height: auto;
+                display: block;
+            }
+        }
+
+        &:hover,
+        &:active,
+        &:focus,
+        &.active {
+            background: #ECEAF5;
+
+            .hover-overlay {
+                opacity: 1;
+                top: 0;
+            }
+
+            .date {
+                color: $primary;
+                @include shadow2();
+            }
+            /*&:after {
+                width: 100%;
+                opacity: .08;
+            }*/
+            .details {
+            }
+
+            .arrow {
+                color: #000;
+            }
+        }
+    }
+}
+
+
+@include media-breakpoint-down(xs) {
+    .list-exhibitions {
+        .exhibition {
+            padding: 15px;
+
+            .hover-overlay {
+                font-size: 15px;
+            }
+
+            .date {
+                padding: 7px 0;
+                line-height: normal;
+                width: 60px;
+
+                .day {
+                    font-size: 26px;
+                    line-height: 26px;
+                }
+
+                .month {
+                    font-size: 14px;
+                }
+
+                .year {
+                }
+            }
+
+            .details {
+                margin-left: 15px;
+                padding-top: 2px;
+                font-size: 14px;
+
+                .name {
+                    font-size: 16px;
+                }
+
+                .application {
+                    font-size: 14px;
+
+                    .lbl {
+                        font-size: 13px;
+                    }
+                }
+            }
+
+            .arrow {
+                padding-left: 10px;
+
+                .fa-3x {
+                    font-size: 2em;
+                }
+            }
+
+            .calculator {
+                font-size: 16px;
+
+                input {
+                    font-size:16px;
+                }
+
+                .support {
+                    label {
+                        font-size: 14px;
+                    }
+
+                    .amount {
+                        font-size: 35px;
+                        line-height: 36px;
+                    }
+                }
+            }
+        }
+    }
+}

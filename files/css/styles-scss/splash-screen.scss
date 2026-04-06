@@ -1,0 +1,15 @@
+﻿.ss-wrapper {
+    background: #FFF;
+    max-width: 800px;
+    padding: 0;
+
+    .fancybox-button {
+        background: rgba(255,255,255,.8);
+
+        &:hover,
+        &:active,
+        &:focus {
+            background: #FFF;
+        }
+    }
+}

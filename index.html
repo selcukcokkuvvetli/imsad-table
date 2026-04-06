@@ -1,1435 +1,444 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="tr">
-  <head>
-    <meta charset="UTF-8" />
+<head>
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>İMSAD Endeks Sayfası Mockup</title>
+    <title>TÜRKİYE İMSAD</title>
+    <link rel="canonical" href="./index.html" />
+    <link rel="shortcut icon" href="files/img/favicon/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="76x76" href="files/img/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="files/img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="files/img/favicon/favicon-16x16.png">
+    <link rel="mask-icon" href="files/img/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <link rel="stylesheet" href="lib/vendor/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="files/css/styles.min.css" />
+    <link rel="stylesheet" href="files/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+
     <style>
-      :root {
-        --page-bg: #8f929b;
-        --panel-bg: #a4a7af;
-        --card: #ffffff;
-        --line: #3b3f48;
-        --soft-line: #cad3de;
-        --text: #1f2430;
-        --muted: #545d6d;
-        --red: #ff1e2d;
-        --red-border: #ff5a63;
-        --red-soft: #fff8f8;
-        --blue: #17aee7;
-        --blue-border: #22b8f0;
-        --blue-soft: #f5fcff;
-        --yellow: #f4ec16;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      body {
-        margin: 0;
-        font-family: Arial, Helvetica, sans-serif;
-        color: var(--text);
-        background: #1f2024;
-      }
-
-      .page {
-        max-width: 1320px;
-        margin: 0 auto;
-        padding: 0;
-      }
-
-      .shell {
-        background: var(--panel-bg);
-        border: 4px solid #2e3138;
-        border-radius: 0;
-        box-shadow: none;
-        padding: 0 0 10px;
-        overflow: visible;
-      }
-
-      .topbar {
-        display: grid;
-        grid-template-columns: 170px 1fr;
-        gap: 12px;
-        align-items: center;
-        padding: 16px 18px 8px;
-        margin-bottom: 0;
-      }
-
-      .brand {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 6px 10px;
-        min-height: 44px;
-        background: #fff;
-        border: 1px solid #d9dde5;
-        border-radius: 0;
-      }
-
-      .brand-badge {
-        width: 18px;
-        height: 32px;
-        border-radius: 3px;
-        background: linear-gradient(
-          180deg,
-          #e53935 0%,
-          #f59e0b 35%,
-          #16a34a 70%,
-          #2563eb 100%
-        );
-        box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.35);
-      }
-
-      .brand h1 {
-        margin: 0;
-        font-size: 18px;
-        letter-spacing: 0.2px;
-        font-weight: 800;
-      }
-
-      .info-bar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        min-height: 42px;
-        background: var(--yellow);
-        border: 2px solid #726c00;
-        border-radius: 0;
-        padding: 5px 14px;
-        font-size: 13px;
-        font-weight: 400;
-        color: #111;
-      }
-
-      .info-bar .info-text {
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        text-align: center;
-        width: 100%;
-      }
-
-      .board {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 14px;
-        padding: 0 4px;
-        margin-bottom: 12px;
-        position: relative;
-        z-index: 5;
-      }
-
-      .panel {
-        background: transparent;
-        border: 0;
-        border-radius: 0;
-        overflow: visible;
-        box-shadow: none;
-        min-width: 0;
-      }
-
-      .panel-header {
-        padding: 10px 12px;
-        color: #fff;
-        font-size: 18px;
-        line-height: 1.2;
-        font-weight: 800;
-        letter-spacing: 0;
-        border-radius: 0;
-        text-align: center;
-        min-height: 42px;
-      }
-
-      .panel-header.red {
-        background: #f70f1c;
-      }
-
-      .panel-header.blue {
-        background: #18afe7;
-      }
-
-      .panel-body {
-        padding: 10px 0 0;
-        overflow: visible;
-      }
-
-      .main-select-row {
-        margin-bottom: 10px;
-      }
-
-      .split-select-row {
-        display: grid;
-        grid-template-columns: 72px minmax(0, 1fr);
-        gap: 0;
-        align-items: stretch;
-      }
-
-      .mini-badge {
-        border: 2px solid #219fd3;
-        border-right: 0;
-        background: #ffffff;
-        color: #1b97cb;
-        font-size: 12px;
-        font-weight: 800;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        line-height: 1.1;
-        min-height: 34px;
-        padding: 4px 6px;
-      }
-
-      .select-box,
-      .menu-title,
-      .menu-item,
-      .metric-box,
-      .graph-title {
-        border: 2px solid var(--line);
-        border-radius: 0;
-        background: #fff;
-        box-shadow: none;
-      }
-
-      .select-box {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 12px;
-        min-height: 34px;
-        padding: 6px 12px;
-        font-size: 16px;
-        font-weight: 700;
-        position: relative;
-        text-align: center;
-      }
-
-      .select-box span:first-child {
-        flex: 1;
-        min-width: 0;
-      }
-
-      .select-box.red-theme {
-        border-color: #a92a31;
-      }
-
-      .select-box.blue-theme {
-        border-color: #219fd3;
-      }
-
-      .chev {
-        width: 14px;
-        height: 14px;
-        border-right: 2px solid currentColor;
-        border-bottom: 2px solid currentColor;
-        transform: rotate(45deg);
-        margin-top: -4px;
-        flex: 0 0 auto;
-        opacity: 1;
-      }
-
-      .left-grid {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 12px;
-        align-items: start;
-      }
-
-      .right-grid {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-        gap: 12px;
-        align-items: start;
-      }
-
-      .dropdown-card {
-        position: relative;
-        z-index: 2;
-        min-width: 0;
-      }
-
-      .dropdown-card.open {
-        z-index: 50;
-      }
-
-      .menu-title {
-        padding: 8px 10px;
-        min-height: 86px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 8px;
-        font-weight: 700;
-        text-align: center;
-        cursor: pointer;
-        color: #1e2430;
-        width: 100%;
-      }
-
-      .dropdown-card.red .menu-title {
-        background: var(--red-soft);
-        border-color: var(--red-border);
-      }
-
-      .dropdown-card.blue .menu-title {
-        background: var(--blue-soft);
-        border-color: var(--blue-border);
-      }
-
-      .menu-title span:first-child {
-        flex: 1;
-        line-height: 1.25;
-        word-break: break-word;
-      }
-
-      .menu-title .chev,
-      .select-box .chev {
-        display: inline-block;
-        flex: 0 0 14px;
-        width: 14px;
-        height: 14px;
-        min-width: 14px;
-        min-height: 14px;
-        margin: 0 2px 0 8px;
-        position: relative;
-        top: -1px;
-      }
-
-      .dropdown-menu {
-        display: none;
-        position: absolute;
-        top: calc(100% - 2px);
-        left: 0;
-        right: 0;
-        z-index: 60;
-        background: #fff;
-        border: 2px solid var(--line);
-        border-top: 0;
-        border-radius: 0;
-        box-shadow: none;
-        overflow-x: hidden;
-        overflow-y: auto;
-        scrollbar-width: thin;
-        scrollbar-color: #7f8da3 #eef3f8;
-      }
-
-      .dropdown-menu::-webkit-scrollbar {
-        width: 10px;
-      }
-
-      .dropdown-menu::-webkit-scrollbar-track {
-        background: #eef3f8;
-      }
-
-      .dropdown-menu::-webkit-scrollbar-thumb {
-        background: #7f8da3;
-        border: 2px solid #eef3f8;
-      }
-
-      .menu-faaliyet .dropdown-menu {
-        width: calc(100% + 6px);
-        max-height: 338px;
-        left: 0;
-        right: auto;
-      }
-
-      .menu-guven .dropdown-menu {
-        width: calc(100% + 4px);
-        max-height: 286px;
-        left: 0;
-        right: auto;
-      }
-
-      .menu-beklenti .dropdown-menu {
-        width: calc(100% + 8px);
-        max-height: 392px;
-        left: 0;
-        right: auto;
-      }
-
-      .menu-karsilastirma .dropdown-menu {
-        width: calc(100% + 8px);
-        max-height: 176px;
-        left: -2px;
-        right: auto;
-        z-index: 80;
-      }
-
-      .menu-alt-sanayi .dropdown-menu {
-        width: calc(100% + 18px);
-        max-height: 372px;
-        left: -2px;
-        right: auto;
-        z-index: 90;
-      }
-
-      .dropdown-card.open .dropdown-menu {
-        display: block;
-      }
-
-      .dropdown-card.open .chev {
-        transform: rotate(-135deg);
-        margin: 0 2px 0 8px;
-        top: 1px;
-      }
-
-      .menu-item {
-        border: 0;
-        border-bottom: 1px solid #dfe4eb;
-        border-radius: 0;
-        padding: 12px 14px;
-        background: #fff;
-        width: 100%;
-        min-height: 42px;
-        text-align: center;
-        font-size: 14px;
-        font-weight: 700;
-        line-height: 1.2;
-        cursor: pointer;
-        transition: none;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .menu-item:hover {
-        background: #fff;
-      }
-
-      .dropdown-card.red .menu-item.active {
-        background: #fff6f6;
-        color: #b42318;
-      }
-
-      .dropdown-card.blue .menu-item.active {
-        background: #f3fbff;
-        color: #0369a1;
-      }
-
-      .menu-item:last-child {
-        border-bottom: 0;
-      }
-
-      .sub-table {
-        display: none;
-        width: 100%;
-        margin-top: 8px;
-        border: 2px solid #24aee7;
-        border-radius: 0;
-        overflow: hidden;
-        background: #fff;
-      }
-
-      .dropdown-card.open + .sub-table {
-        display: none;
-      }
-
-      .dropdown-card.show-linked-table:not(.open) + .sub-table {
-        display: block;
-      }
-
-      .menu-karsilastirma.show-linked-table:not(.open) + .sub-table {
-        width: 112%;
-        margin-left: -6%;
-      }
-
-      .menu-alt-sanayi.show-linked-table:not(.open) + .sub-table {
-        width: 128%;
-        margin-left: -14%;
-      }
-
-      .sub-table table {
-        width: 100%;
-        border-collapse: collapse;
-        table-layout: fixed;
-      }
-
-      .sub-table th,
-      .sub-table td {
-        border: 1px solid #24aee7;
-        padding: 8px 6px;
-        text-align: center;
-        font-size: 13px;
-        font-weight: 700;
-        background: #fff;
-        word-break: break-word;
-      }
-
-      .sub-table th {
-        background: #fbfeff;
-        font-size: 14px;
-      }
-
-      .chart-card {
-        background: transparent;
-        border: 2px solid var(--line);
-        border-radius: 0;
-        box-shadow: none;
-        padding: 10px 10px 8px;
-        margin: 0 42px 0;
-      }
-
-      .chart-top {
-        display: grid;
-        grid-template-columns: 320px 1fr 230px;
-        gap: 14px;
-        align-items: center;
-        margin-bottom: 6px;
-      }
-
-      .graph-title {
-        min-height: 42px;
-        display: flex;
-        align-items: center;
-        padding: 0 12px;
-        font-size: 16px;
-        font-weight: 800;
-        border-color: var(--line);
-      }
-
-      .metric-box {
-        min-height: 54px;
-        padding: 8px 12px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        border-color: var(--line);
-      }
-
-      .metric-box small {
-        display: block;
-        color: #2b2f37;
-        font-size: 12px;
-        line-height: 1.2;
-        font-weight: 700;
-        text-align: right;
-      }
-
-      .metric-value {
-        font-size: 18px;
-        font-weight: 800;
-        border: 2px solid var(--line);
-        border-radius: 0;
-        min-width: 84px;
-        text-align: center;
-        padding: 8px 10px;
-        background: #fff;
-        color: #1d2430;
-      }
-
-      .legend {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 18px;
-        padding-top: 0;
-        font-size: 13px;
-        color: #2f3641;
-        font-weight: 700;
-      }
-
-      .legend-item {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-      }
-
-      .legend-line {
-        width: 26px;
-        height: 2px;
-        border-radius: 999px;
-        position: relative;
-      }
-
-      .legend-line::after {
-        content: "";
-        position: absolute;
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        right: -1px;
-        top: -3px;
-        background: currentColor;
-      }
-
-      .legend-dark {
-        color: #243046;
-      }
-      .legend-sky {
-        color: #16a3e3;
-      }
-      .legend-green {
-        color: #416c2f;
-      }
-      .legend-lime {
-        color: #72bd43;
-      }
-
-      .chart-area {
-        border: 0;
-        border-radius: 0;
-        padding: 0;
-        background: transparent;
-        overflow: hidden;
-      }
-
-      .chart-svg {
-        width: 100%;
-        height: 455px;
-        display: block;
-        overflow: visible;
-      }
-
-      .range-wrap {
-        margin-top: 10px;
-        border: 2px solid var(--line);
-        border-radius: 0;
-        padding: 6px 16px 10px;
-        background: transparent;
-      }
-
-      .range-title {
-        text-align: center;
-        font-size: 12px;
-        font-weight: 700;
-        color: #1f2430;
-        margin-bottom: 4px;
-      }
-
-      .dual-range {
-        position: relative;
-        height: 26px;
-        margin-bottom: 4px;
-      }
-
-      .range-track,
-      .range-fill {
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 9px;
-        height: 5px;
-        border-radius: 999px;
-      }
-
-      .range-track {
-        background: #d5dde8;
-        border: 1px solid #79889b;
-      }
-
-      .range-fill {
-        background: #1ea7e1;
-        left: var(--range-start, 0%);
-        right: calc(100% - var(--range-end, 100%));
-      }
-
-      .dual-range input[type="range"] {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        pointer-events: none;
-        background: none;
-        appearance: none;
-        -webkit-appearance: none;
-      }
-
-      .dual-range input[type="range"]::-webkit-slider-thumb {
-        pointer-events: auto;
-        -webkit-appearance: none;
-        width: 18px;
-        height: 18px;
-        border: 0;
-        background: #27354a;
-        border-radius: 50%;
-        box-shadow: none;
-        cursor: pointer;
-      }
-
-      .dual-range input[type="range"]::-moz-range-thumb {
-        pointer-events: auto;
-        width: 18px;
-        height: 18px;
-        border: 0;
-        background: #27354a;
-        border-radius: 50%;
-        box-shadow: none;
-        cursor: pointer;
-      }
-
-      .dual-range input[type="range"]::-webkit-slider-runnable-track,
-      .dual-range input[type="range"]::-moz-range-track {
-        background: transparent;
-        height: 5px;
-      }
-
-      .range-labels {
-        display: flex;
-        justify-content: space-between;
-        font-size: 12px;
-        color: #1f2430;
-        font-weight: 700;
-      }
-
-      @media (max-width: 1200px) {
-        .board {
-          grid-template-columns: 1fr;
+        .container {
+            max-width: 1170px !important;
         }
 
-        .left-grid,
-        .right-grid {
-          grid-template-columns: 1fr;
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #333333;
         }
 
-        .chart-top {
-          grid-template-columns: 1fr;
+        a {
+            color: #337ab7;
+            text-decoration: none;
         }
 
-        .chart-card {
-          margin: 0 10px;
-        }
-      }
-
-      @media (max-width: 768px) {
-        .topbar {
-          grid-template-columns: 1fr;
-          padding: 12px 10px 8px;
+        a:hover,
+        a:focus {
+            color: #23527c;
+            text-decoration: underline;
         }
 
-        .page {
-          padding: 0;
+        .nav-link {
+            font-size: 16px;
         }
 
-        .shell {
-          border-width: 2px;
+        .navbar-tr-mobile {
+            top: 87px;
+            position: absolute;
+            background: white;
+            z-index: 999999;
+            overflow: overlay;
+            width: 85%;
+            right: -20px;
+            box-shadow: 0 19px 38px rgb(0 0 0 / 0%), 0 15px 12px rgb(0 0 0 / 22%);
+            padding-left: 20px;
         }
 
-        .chart-svg {
-          height: 340px;
+        .dropdown-menu-mobile li {
+            position: relative;
         }
-      }
+
+        .dropdown-menu-mobile .dropdown-submenu,
+        .dropdown-menu-mobile .submenu {
+            display: none;
+            position: absolute;
+            left: 100%;
+            top: -7px;
+        }
+
+        .dropdown-menu-mobile .dropdown-submenu-left {
+            right: 100%;
+            left: auto;
+        }
+
+        .dropdown-menu-mobile > li:hover > .dropdown-submenu {
+            display: block;
+        }
+
+        .dropdown-menu {
+            background-color: white;
+            box-shadow: none;
+            font-size: 16px;
+            color: #827c84;
+        }
+
+        a.dropdown-item {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+            padding: 0 15px;
+            font-size: 16px;
+            color: #827c84;
+        }
+
+        .dropdown-menu-mobile > li {
+            position: relative;
+            user-select: none;
+            cursor: pointer;
+        }
+
+        .dropdown-menu-mobile .sub-menu {
+            left: 100%;
+            top: 0;
+            display: none;
+            margin-top: -1px;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            border-left-color: #fff;
+            box-shadow: none;
+        }
+
+        .right-caret:after,
+        .left-caret:after {
+            content: "";
+            border-bottom: 5px solid transparent;
+            border-top: 5px solid transparent;
+            display: inline-block;
+            height: 0;
+            vertical-align: middle;
+            width: 0;
+            margin-left: 5px;
+        }
+
+        .right-caret:after {
+            border-left: 5px solid #ffaf46;
+        }
+
+        .left-caret:after {
+            border-right: 5px solid #ffaf46;
+        }
+
+        .trigger {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+            font-size: 16px;
+            color: #827c84;
+        }
+
+        .navbar-tr-mobile a {
+            display: inline-block;
+            font-size: 14px !important;
+        }
+
+        .navbar-tr-mobile .pl-4,
+        .navbar-tr-mobile .px-4 {
+            padding-left: 1.5rem !important;
+            padding: 0px;
+        }
+
+        .navbar-tr-mobile li {
+            height: auto !important;
+        }
+
+        .preview-shell {
+            min-height: 620px;
+            background: #fff;
+        }
+
+        .embedded-shell {
+            padding: 24px 0 40px;
+        }
+
+        .embedded-frame-wrap {
+            border-radius: 24px;
+            overflow: hidden;
+            background: #ffffff;
+            box-shadow: 0 18px 40px rgba(18, 24, 32, 0.08);
+        }
+
+        .embedded-frame {
+            display: block;
+            width: 100%;
+            min-height: 1200px;
+            border: 0;
+            background: #ffffff;
+        }
+
+        @media (max-width: 749px) {
+            .preview-shell {
+                min-height: 360px;
+            }
+
+            .embedded-shell {
+                padding: 16px 0 24px;
+            }
+        }
     </style>
-  </head>
-  <body>
-    <div class="page">
-      <div class="shell">
-        <div class="topbar">
-          <div class="brand">
-            <div class="brand-badge" aria-hidden="true"></div>
-            <h1>İMSAD</h1>
-          </div>
-          <div class="info-bar">
-            <div class="info-text">
-              • Sayfanın devamında endeksler hakkında açıklamalar ve çekinceler
-              başlıkları altında bilgiler yer alacaktır
-            </div>
-            <div style="font-size: 22px; line-height: 1">›</div>
-          </div>
-        </div>
-
-        <div class="board">
-          <section class="panel">
-            <div class="panel-header red">
-              İnşaat Malzemesi Sanayi Endeksleri
-            </div>
-            <div class="panel-body">
-              <div class="main-select-row">
-                <div class="select-box red-theme">
-                  <span>İnşaat Malzemesi Sanayi Bileşik Endeksi</span>
-                  <span class="chev"></span>
-                </div>
-              </div>
-
-              <div class="left-grid">
-                <div
-                  class="dropdown-card red menu-faaliyet"
-                  data-group="left-filters"
-                >
-                  <button class="menu-title" type="button">
-                    <span>İnşaat Malzemesi Sanayi<br />Faaliyet Endeksi</span>
-                    <span class="chev"></span>
-                  </button>
-                  <div class="dropdown-menu">
-                    <button class="menu-item active" type="button">
-                      Yurt İçi Satış Endeksi
-                    </button>
-                    <button class="menu-item" type="button">
-                      Üretim Endeksi
-                    </button>
-                    <button class="menu-item" type="button">
-                      İhracat Endeksi
-                    </button>
-                    <button class="menu-item" type="button">
-                      Ciro Endeksi
-                    </button>
-                    <button class="menu-item" type="button">
-                      Tahsilat Hızı Endeksi
-                    </button>
-                    <button class="menu-item" type="button">
-                      Yurt Dışı Satış Fiyatları Endeksi
-                    </button>
-                  </div>
-                </div>
-
-                <div
-                  class="dropdown-card red menu-guven"
-                  data-group="left-filters"
-                >
-                  <button class="menu-title" type="button">
-                    <span>İnşaat Malzemesi Sanayi<br />Güven Endeksi</span>
-                    <span class="chev"></span>
-                  </button>
-                  <div class="dropdown-menu">
-                    <button class="menu-item" type="button">
-                      Türkiye Ekonomisi Genel Gidişat Endeksi
-                    </button>
-                    <button class="menu-item" type="button">
-                      İnşaat Sektörü Genel Gidişat Endeksi
-                    </button>
-                    <button class="menu-item" type="button">
-                      İnşaat Malzemeleri Sanayi Genel Gidişat Endeksi
-                    </button>
-                    <button class="menu-item" type="button">
-                      Yurt İçi Pazarlar Genel Gidişat Endeksi
-                    </button>
-                    <button class="menu-item" type="button">
-                      İhracat Pazarları Genel Gidişat Endeksi
-                    </button>
-                  </div>
-                </div>
-
-                <div
-                  class="dropdown-card red menu-beklenti"
-                  data-group="left-filters"
-                >
-                  <button class="menu-title" type="button">
-                    <span>İnşaat Malzemesi Sanayi<br />Beklenti Endeksi</span>
-                    <span class="chev"></span>
-                  </button>
-                  <div class="dropdown-menu">
-                    <button class="menu-item" type="button">
-                      Türkiye Ekonomisine İlişkin 3 Aylık Beklenti Endeksi
-                    </button>
-                    <button class="menu-item" type="button">
-                      İnşaat Malzemesi Sanayine İlişkin 3 Aylık Beklenti Endeksi
-                    </button>
-                    <button class="menu-item" type="button">
-                      Önümüzdeki 3 Aya İlişkin Alınan Yurt İçi Siparişler
-                      Endeksi
-                    </button>
-                    <button class="menu-item" type="button">
-                      Önümüzdeki 3 Aya İlişkin Alınan İhracat Siparişleri
-                      Endeksi
-                    </button>
-                    <button class="menu-item" type="button">
-                      Önümüzdeki 3 Aya İlişkin Üretim Beklentisi Endeksi
-                    </button>
-                    <button class="menu-item" type="button">
-                      Önümüzdeki 3 Aya İlişkin Yatırım Beklentisi Endeksi
-                    </button>
-                    <button class="menu-item" type="button">
-                      Önümüzdeki 3 Aya İlişkin İstihdam Beklentisi Endeksi
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <section class="panel">
-            <div class="panel-header blue">
-              İnşaat Malzemesi Sanayi Dış Ticaret Endeksleri
-            </div>
-            <div class="panel-body">
-              <div class="main-select-row split-select-row">
-                <div class="mini-badge">Ana<br />Endeks</div>
-                <div class="select-box blue-theme">
-                  <span
-                    >İnşaat Malzemesi Sanayi Toplulaştırılmış Dış Ticaret
-                    Endeksleri</span
-                  >
-                  <span class="chev"></span>
-                </div>
-              </div>
-
-              <div class="right-grid">
-                <div>
-                  <div
-                    class="dropdown-card blue menu-karsilastirma"
-                    data-group="right-filters"
-                  >
-                    <button class="menu-title" type="button">
-                      <span
-                        >Türkiye Sanayisi ve İnşaat Malzemesi Sanayisi
-                        Karşılaştırmalı Dış Ticaret Endeksleri</span
-                      >
-                      <span class="chev"></span>
-                    </button>
-                    <div class="dropdown-menu">
-                      <button class="menu-item" type="button">
-                        Miktar Endeksleri
-                      </button>
-                      <button class="menu-item" type="button">
-                        Değer Endeksleri
-                      </button>
-                      <button class="menu-item" type="button">
-                        Birim Değer Endeksleri
-                      </button>
+</head>
+<body>
+    <header id="header" class="header">
+        <div class="top-header">
+            <div class="container">
+                <div class="row clearfix">
+                    <div class="col-lg-2 col-6">
+                        <a href="#" class="homepage-link">anasayfa</a>
                     </div>
-                  </div>
-
-                  <div class="sub-table">
-                    <table>
-                      <thead>
-                        <tr>
-                          <th>Miktar Endeksleri</th>
-                          <th>Değer Endeksleri</th>
-                          <th>Birim Değer Endeksleri</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>İhracat</td>
-                          <td>İhracat</td>
-                          <td>İhracat</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-                <div>
-                  <div
-                    class="dropdown-card blue menu-alt-sanayi"
-                    data-group="right-filters"
-                  >
-                    <button class="menu-title" type="button">
-                      <span
-                        >Alt Sanayi Ürün Grupları Dış Ticaret Endeksleri</span
-                      >
-                      <span class="chev"></span>
-                    </button>
-                    <div class="dropdown-menu">
-                      <button class="menu-item active" type="button">
-                        Demir Çelik Ürünleri
-                      </button>
-                      <button class="menu-item" type="button">
-                        Mineral, Taş ve Toprak Ürünleri
-                      </button>
-                      <button class="menu-item" type="button">
-                        Elektrik Malzemesi ve Teçhizatları
-                      </button>
-                      <button class="menu-item" type="button">
-                        Metal Bazlı Ürünler
-                      </button>
-                      <button class="menu-item" type="button">
-                        Kimyasal Bazlı Ürünler
-                      </button>
-                      <button class="menu-item" type="button">
-                        Ağaç ve Ahşap Ürünleri
-                      </button>
-                      <button class="menu-item" type="button">
-                        Yalıtım Ürünleri
-                      </button>
-                      <button class="menu-item" type="button">
-                        Prefabrik Yapılar
-                      </button>
+                    <div class="col-lg-10 col-6 text-right">
+                        <span>| </span>
+                        <a href="#" class="language-link">english</a>
                     </div>
-                  </div>
-
-                  <div class="sub-table">
-                    <table>
-                      <thead>
-                        <tr>
-                          <th>Miktar Endeksleri</th>
-                          <th>Değer Endeksleri</th>
-                          <th>Birim Değer Endeksleri</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Demir Çelik Ürünleri</td>
-                          <td>xxx</td>
-                          <td>xxx</td>
-                        </tr>
-                        <tr>
-                          <td>Mineral, Taş ve Toprak Ürünleri</td>
-                          <td>xxx</td>
-                          <td>xxx</td>
-                        </tr>
-                        <tr>
-                          <td>Elektrik Malzemesi ve Teçhizatları</td>
-                          <td>xxx</td>
-                          <td>xxx</td>
-                        </tr>
-                        <tr>
-                          <td>Metal Bazlı Ürünler</td>
-                          <td>xxx</td>
-                          <td>xxx</td>
-                        </tr>
-                        <tr>
-                          <td>Kimyasal Bazlı Ürünler</td>
-                          <td>xxx</td>
-                          <td>xxx</td>
-                        </tr>
-                        <tr>
-                          <td>Ağaç ve Ahşap Ürünleri</td>
-                          <td>xxx</td>
-                          <td>xxx</td>
-                        </tr>
-                        <tr>
-                          <td>Yalıtım Ürünleri</td>
-                          <td>xxx</td>
-                          <td>xxx</td>
-                        </tr>
-                        <tr>
-                          <td>Prefabrik Yapılar</td>
-                          <td>xxx</td>
-                          <td>xxx</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
                 </div>
-              </div>
             </div>
-          </section>
         </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="navbar navbar-expand-md navbar-light" style="padding: 10px 0px;">
+                        <a class="navbar-brand" href="#">
+                            <img src="files/img/logo/imsad-logo.png" alt="">
+                        </a>
 
-        <section class="chart-card">
-          <div class="chart-top">
-            <div class="graph-title">İhracat Değer Endeksleri</div>
-            <div class="legend">
-              <span class="legend-item"
-                ><span class="legend-line legend-dark"></span>xxx</span
-              >
-              <span class="legend-item"
-                ><span class="legend-line legend-sky"></span>yyy</span
-              >
-              <span class="legend-item"
-                ><span class="legend-line legend-green"></span>zzz</span
-              >
-              <span class="legend-item"
-                ><span class="legend-line legend-lime"></span>www</span
-              >
-            </div>
-            <div class="metric-box">
-              <small>Endeksin bir önceki<br />döneme göre değişimi</small>
-              <div class="metric-value">+6,13</div>
-            </div>
-          </div>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#previewMobileMenu" aria-controls="previewMobileMenu" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
 
-          <div class="chart-area">
-            <svg
-              class="chart-svg"
-              id="chartSvg"
-              viewBox="0 0 1180 450"
-              preserveAspectRatio="none"
-              aria-label="Endeks grafiği"
-            ></svg>
-          </div>
+                        <div class="collapse navbar-collapse navbar-web" id="previewDesktopMenu">
+                            <ul class="navbar-nav ml-auto py-4 py-md-0 dropit">
+                                <li class="nav-item pl-4 pr-4 ml-0 ml-md-4 dropit-trigger">
+                                    <a class="nav-link" style="color: #827c84!important;" href="#">hakkında</a>
+                                    <ul class="dropdown-menu dropit-submenu">
+                                        <li><a class="dropdown-item" href="#">kurumsal</a></li>
+                                        <li><a class="dropdown-item" href="#">vizyon misyon</a></li>
+                                        <li><a class="dropdown-item" href="#">yönetim kurulu</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item pl-4 pr-4 ml-0 ml-md-4 dropit-trigger">
+                                    <a class="nav-link" style="color: #827c84!important;" href="#">üyelik</a>
+                                    <ul class="dropdown-menu dropit-submenu">
+                                        <li><a class="dropdown-item" href="#">üyelerimiz</a></li>
+                                        <li><a class="dropdown-item" href="#">üyelik türleri</a></li>
+                                        <li><a class="dropdown-item" href="#">başvuru formu</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item pl-4 pr-4 ml-0 ml-md-4 dropit-trigger">
+                                    <a class="nav-link" style="color: #827c84!important;" href="#">medya</a>
+                                    <ul class="dropdown-menu dropit-submenu">
+                                        <li><a class="dropdown-item" href="#">haberler</a></li>
+                                        <li><a class="dropdown-item" href="#">duyurular</a></li>
+                                        <li><a class="dropdown-item" href="#">basın bültenleri</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item pl-4 pr-4 ml-0 ml-md-4 dropit-trigger">
+                                    <a class="nav-link" style="color: #827c84!important;" href="#">etkinlikler</a>
+                                    <ul class="dropdown-menu dropit-submenu">
+                                        <li><a class="dropdown-item" href="#">projeler</a></li>
+                                        <li><a class="dropdown-item" href="#">zirveler</a></li>
+                                        <li><a class="dropdown-item" href="#">gündem buluşmaları</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item pl-4 pr-4 ml-0 ml-md-4 dropit-trigger">
+                                    <a class="nav-link" style="color: #827c84!important;" href="#">yayınlar</a>
+                                    <ul class="dropdown-menu dropit-submenu">
+                                        <li><a class="dropdown-item" href="#">kurumsal yayınlar</a></li>
+                                        <li><a class="dropdown-item" href="#">ekonomi raporları</a></li>
+                                        <li><a class="dropdown-item" href="#">endeksler</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item pl-4 pr-4 ml-0 ml-md-4">
+                                    <a class="nav-link" style="color: #827c84!important;" href="#">iletişim</a>
+                                </li>
+                            </ul>
+                        </div>
 
-          <div class="range-wrap" id="rangeWrap">
-            <div class="range-title" id="rangeTitle">
-              2021 Kasım – 2025 Kasım
+                        <div class="collapse navbar-collapse navbar-tr navbar-tr-mobile" id="previewMobileMenu" style="display:none!important">
+                            <ul class="navbar-nav ml-auto py-4 py-md-0 dropit">
+                                <li class="dropdown nav-item pl-4 pr-4 ml-0 ml-md-4">
+                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color: #827c84 !important; padding: 10px !important; padding-right: 0px; padding-top: 5px !important; padding-left: 0px !important; border-bottom: 0px solid;" href="#">hakkında</a>
+                                    <hr style="margin-left: -40px; width: 130%; margin-top: 5px;" />
+                                    <ul class="dropdown-menu dropdown-menu-mobile">
+                                        <li><a class="dropdown-item" href="#" style="width: 100%; border-bottom: 1px solid rgba(0,0,0,.1); padding: 10px !important; padding-left: 0px !important;">kurumsal</a></li>
+                                        <li><a class="dropdown-item" href="#" style="width: 100%; border-bottom: 1px solid rgba(0,0,0,.1); padding: 10px !important; padding-left: 0px !important;">vizyon misyon</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown nav-item pl-4 pr-4 ml-0 ml-md-4">
+                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color: #827c84 !important; padding: 10px !important; padding-right: 0px; padding-top: 5px !important; padding-left: 0px !important; border-bottom: 0px solid;" href="#">üyelik</a>
+                                    <hr style="margin-left: -40px; width: 130%; margin-top: 5px;" />
+                                    <ul class="dropdown-menu dropdown-menu-mobile">
+                                        <li><a class="dropdown-item" href="#" style="width: 100%; border-bottom: 1px solid rgba(0,0,0,.1); padding: 10px !important; padding-left: 0px !important;">üyelerimiz</a></li>
+                                        <li><a class="dropdown-item" href="#" style="width: 100%; border-bottom: 1px solid rgba(0,0,0,.1); padding: 10px !important; padding-left: 0px !important;">üyelik türleri</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown nav-item pl-4 pr-4 ml-0 ml-md-4">
+                                    <a class="nav-link" style="color: #827c84!important;" href="#">iletişim</a>
+                                    <hr style="margin-left: -40px; width: 130%; margin-top: 5px;" />
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
             </div>
-            <div class="dual-range">
-              <div class="range-track"></div>
-              <div class="range-fill" id="rangeFill"></div>
-              <input type="range" id="startRange" min="0" max="48" value="0" />
-              <input type="range" id="endRange" min="0" max="48" value="48" />
-            </div>
-            <div class="range-labels">
-              <span id="startLabel">Ocak 2011</span>
-              <span id="endLabel">Kasım 2025</span>
-            </div>
-          </div>
-        </section>
-      </div>
-    </div>
+        </div>
+    </header>
 
+    <main class="preview-shell sub-page">
+        <div class="container">
+            <div class="embedded-shell">
+                <div class="embedded-frame-wrap">
+                    <iframe
+                        id="tableFrame"
+                        class="embedded-frame"
+                        src="table.html?embed=1"
+                        title="İMSAD Endeks Görünümü"
+                        loading="eager">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="hidden-xl-down">
+        <div class="footer-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 col-xs-6 col-6">
+                        <img src="files/img/logo/imsad-footer-logo.png">
+                    </div>
+                    <div class="col-lg-2 col-xs-6 col-6 pull-right social-icons">
+                        <a href="#" style="height:29.33px!important;" target="_blank"><i class="fa fa-x-twitter-square"><img style="margin-bottom: 5px;height:26px!important;" src="files/img/logo/x-gri-logo.png"></i></a>
+                        <a href="#" target="_blank"><i class="fa fa-facebook-official"></i></a>
+                        <a href="#" target="_blank"><i class="fa fa-instagram"></i></a>
+                        <a href="#" target="_blank"><i class="fa fa-youtube-square"></i></a>
+                        <a href="#" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom d-none d-sm-block ">
+            <div class="container">
+                <div class="row footer-menu">
+                    <div class="col-lg-12">
+                        <ul class="footer-menu" id="footer-menu">
+                            <li>
+                                <a href="#" target="_self">hakkında</a>
+                                <ul>
+                                    <li><a href="#" target="_self">kurumsal</a></li>
+                                    <li><a href="#" target="_self">tarihçe</a></li>
+                                    <li><a href="#" target="_self">vizyon misyon</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#" target="_self">üyelik</a>
+                                <ul>
+                                    <li><a href="#" target="_self">üyelerimiz</a></li>
+                                    <li><a href="#" target="_self">üyelik türleri</a></li>
+                                    <li><a href="#" target="_self">başvuru formu</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#" target="_self">medya</a>
+                                <ul>
+                                    <li><a href="#" target="_self">haberler</a></li>
+                                    <li><a href="#" target="_self">duyurular</a></li>
+                                    <li><a href="#" target="_self">basın bültenleri</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#" target="_self">etkinlikler</a>
+                                <ul>
+                                    <li><a href="#" target="_self">projeler</a></li>
+                                    <li><a href="#" target="_self">zirveler</a></li>
+                                    <li><a href="#" target="_self">gündem buluşmaları</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#" target="_self">yayınlar</a>
+                                <ul>
+                                    <li><a href="#" target="_self">kurumsal yayınlar</a></li>
+                                    <li><a href="#" target="_self">ekonomi raporları</a></li>
+                                    <li><a href="#" target="_self">endeksler</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#" target="_self">iletişim</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-12">
+                        <span class="copyright">© Copyright 2026 Türkiye İMSAD</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="lib/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="lib/vendor/bootstrap/js/popper.min.js"></script>
+    <script src="lib/vendor/bootstrap/js/bootstrap.min.js"></script>
     <script>
-      const monthLabels = [
-        "Kasım 2021",
-        "Aralık 2021",
-        "Ocak 2022",
-        "Şubat 2022",
-        "Mart 2022",
-        "Nisan 2022",
-        "Mayıs 2022",
-        "Haziran 2022",
-        "Temmuz 2022",
-        "Ağustos 2022",
-        "Eylül 2022",
-        "Ekim 2022",
-        "Kasım 2022",
-        "Aralık 2022",
-        "Ocak 2023",
-        "Şubat 2023",
-        "Mart 2023",
-        "Nisan 2023",
-        "Mayıs 2023",
-        "Haziran 2023",
-        "Temmuz 2023",
-        "Ağustos 2023",
-        "Eylül 2023",
-        "Ekim 2023",
-        "Kasım 2023",
-        "Aralık 2023",
-        "Ocak 2024",
-        "Şubat 2024",
-        "Mart 2024",
-        "Nisan 2024",
-        "Mayıs 2024",
-        "Haziran 2024",
-        "Temmuz 2024",
-        "Ağustos 2024",
-        "Eylül 2024",
-        "Ekim 2024",
-        "Kasım 2024",
-        "Aralık 2024",
-        "Ocak 2025",
-        "Şubat 2025",
-        "Mart 2025",
-        "Nisan 2025",
-        "Mayıs 2025",
-        "Haziran 2025",
-        "Temmuz 2025",
-        "Ağustos 2025",
-        "Eylül 2025",
-        "Ekim 2025",
-        "Kasım 2025",
-      ];
-
-      const series = {
-        xxx: [
-          118, 121, 96, 86, 80, 90, 92, 96, 94, 101, 98, 107, 112, 118, 102, 92,
-          89, 98, 100, 101, 102, 109, 112, 118, 126, 121, 116, 103, 104, 108,
-          105, 112, 111, 114, 118, 120, 128, 145, 138, 126, 114, 118, 130, 130,
-          140, 140, 151, 151, 154.3,
-        ],
-        yyy: [
-          120, 124, 98, 88, 83, 94, 96, 100, 96, 104, 101, 110, 114, 121, 104,
-          94, 92, 109, 108, 109, 110, 116, 123, 127, 142, 134, 130, 116, 116,
-          123, 119, 128, 127, 133, 137, 145, 167, 158, 148, 128, 134, 151, 151,
-          163, 160, 174, 176, 176, 177.9,
-        ],
-        zzz: [
-          111, 112, 80, 68, 59, 69, 73, 79, 78, 86, 89, 97, 79, 70, 62, 63, 69,
-          67, 67, 68, 71, 78, 79, 87, 79, 76, 68, 69, 73, 72, 70, 76, 78, 81,
-          83, 87, 98, 91, 82, 70, 72, 81, 82, 88, 90, 99, 101, 101, 101.5,
-        ],
-        www: [
-          117, 121, 97, 89, 84, 91, 92, 97, 95, 103, 101, 105, 110, 118, 100,
-          90, 88, 102, 101, 101, 101, 104, 109, 112, 125, 118, 114, 103, 102,
-          104, 99, 105, 102, 104, 105, 105, 132, 127, 121, 107, 110, 121, 121,
-          127, 127, 137, 138, 138, 138.3,
-        ],
-      };
-
-      const colors = {
-        xxx: "#243046",
-        yyy: "#16a3e3",
-        zzz: "#416c2f",
-        www: "#72bd43",
-      };
-
-      const valueOrder = ["yyy", "xxx", "www", "zzz"];
-      const chartSvg = document.getElementById("chartSvg");
-      const startRange = document.getElementById("startRange");
-      const endRange = document.getElementById("endRange");
-      const rangeFill = document.getElementById("rangeFill");
-      const rangeTitle = document.getElementById("rangeTitle");
-      const startLabel = document.getElementById("startLabel");
-      const endLabel = document.getElementById("endLabel");
-      const ns = "http://www.w3.org/2000/svg";
-
-      startRange.max = monthLabels.length - 1;
-      endRange.max = monthLabels.length - 1;
-      startRange.value = 0;
-      endRange.value = monthLabels.length - 1;
-
-      function clampRanges() {
-        const minGap = 6;
-        let start = Number(startRange.value);
-        let end = Number(endRange.value);
-
-        if (end - start < minGap) {
-          if (document.activeElement === startRange) {
-            start = Math.max(0, end - minGap);
-            startRange.value = start;
-          } else {
-            end = Math.min(monthLabels.length - 1, start + minGap);
-            endRange.value = end;
-          }
-        }
-      }
-
-      function svgNode(name, attrs = {}, text = "") {
-        const el = document.createElementNS(ns, name);
-        Object.entries(attrs).forEach(([key, value]) =>
-          el.setAttribute(key, value),
-        );
-        if (text) el.textContent = text;
-        return el;
-      }
-
-      function getY(value, minY, maxY, plotTop, plotHeight) {
-        return (
-          plotTop + plotHeight - ((value - minY) / (maxY - minY)) * plotHeight
-        );
-      }
-
-      function getPath(
-        values,
-        plotLeft,
-        plotTop,
-        plotWidth,
-        plotHeight,
-        minY,
-        maxY,
-      ) {
-        const stepX = values.length > 1 ? plotWidth / (values.length - 1) : 0;
-        return values
-          .map((v, i) => {
-            const x = plotLeft + i * stepX;
-            const y = getY(v, minY, maxY, plotTop, plotHeight);
-            return `${i === 0 ? "M" : "L"} ${x.toFixed(2)} ${y.toFixed(2)}`;
-          })
-          .join(" ");
-      }
-
-      function renderChart() {
-        clampRanges();
-
-        const start = Number(startRange.value);
-        const end = Number(endRange.value);
-        const labels = monthLabels.slice(start, end + 1);
-        const W = 1180;
-        const H = 450;
-        const plotLeft = 82;
-        const plotRight = 1080;
-        const plotTop = 34;
-        const plotBottom = 300;
-        const plotWidth = plotRight - plotLeft;
-        const plotHeight = plotBottom - plotTop;
-        const minY = 60;
-        const maxY = 180;
-        const yTicks = [60, 80, 100, 120, 140, 160, 180];
-        const stepX = labels.length > 1 ? plotWidth / (labels.length - 1) : 0;
-
-        chartSvg.innerHTML = "";
-
-        yTicks.forEach((tick) => {
-          const y = getY(tick, minY, maxY, plotTop, plotHeight);
-          chartSvg.appendChild(
-            svgNode("line", {
-              x1: plotLeft,
-              y1: y,
-              x2: plotRight,
-              y2: y,
-              stroke: "rgba(62, 78, 104, 0.28)",
-              "stroke-width": "1",
-            }),
-          );
-
-          const label = svgNode(
-            "text",
-            {
-              x: plotLeft - 16,
-              y: y + 4,
-              fill: "#2f3846",
-              "font-size": "12",
-              "font-weight": "700",
-              "text-anchor": "end",
-            },
-            String(tick),
-          );
-          chartSvg.appendChild(label);
-        });
-
-        chartSvg.appendChild(
-          svgNode(
-            "text",
-            {
-              x: plotLeft - 16,
-              y: plotBottom + 10,
-              fill: "#2f3846",
-              "font-size": "12",
-              "font-weight": "700",
-              "text-anchor": "end",
-            },
-            "0",
-          ),
-        );
-
-        chartSvg.appendChild(
-          svgNode("line", {
-            x1: plotLeft,
-            y1: plotBottom,
-            x2: plotRight,
-            y2: plotBottom,
-            stroke: "#2f3846",
-            "stroke-width": "1.4",
-          }),
-        );
-
-        chartSvg.appendChild(
-          svgNode("line", {
-            x1: plotLeft,
-            y1: plotTop,
-            x2: plotLeft,
-            y2: plotBottom,
-            stroke: "#2f3846",
-            "stroke-width": "1.4",
-          }),
-        );
-
-        Object.entries(series).forEach(([key, values]) => {
-          const current = values.slice(start, end + 1);
-          const path = svgNode("path", {
-            d: getPath(
-              current,
-              plotLeft,
-              plotTop,
-              plotWidth,
-              plotHeight,
-              minY,
-              maxY,
-            ),
-            fill: "none",
-            stroke: colors[key],
-            "stroke-width": "3",
-            "stroke-linecap": "round",
-            "stroke-linejoin": "round",
-          });
-          chartSvg.appendChild(path);
-
-          current.forEach((value, idx) => {
-            const x = plotLeft + idx * stepX;
-            const y = getY(value, minY, maxY, plotTop, plotHeight);
-            chartSvg.appendChild(
-              svgNode("circle", {
-                cx: x,
-                cy: y,
-                r: 4,
-                fill: colors[key],
-              }),
-            );
-          });
-        });
-
-        labels.forEach((label, idx) => {
-          const x = plotLeft + idx * stepX;
-          const y = plotBottom + 64;
-          const isLast = idx === labels.length - 1;
-          const txt = svgNode(
-            "text",
-            {
-              x,
-              y,
-              fill: isLast ? "#d92f3a" : "#2f3846",
-              "font-size": "10",
-              "font-weight": isLast ? "800" : "700",
-              "text-anchor": "start",
-              transform: `rotate(-90 ${x} ${y})`,
-            },
-            label,
-          );
-          chartSvg.appendChild(txt);
-        });
-
-        valueOrder.forEach((key) => {
-          const current = series[key].slice(start, end + 1);
-          const last = current[current.length - 1];
-          const y = getY(last, minY, maxY, plotTop, plotHeight);
-          const dotX = plotRight + 18;
-          chartSvg.appendChild(
-            svgNode("circle", {
-              cx: dotX,
-              cy: y,
-              r: 7,
-              fill: "#d92f3a",
-            }),
-          );
-          chartSvg.appendChild(
-            svgNode(
-              "text",
-              {
-                x: dotX + 14,
-                y: y + 4,
-                fill: "#d92f3a",
-                "font-size": "12",
-                "font-weight": "800",
-                "text-anchor": "start",
-              },
-              last.toString().replace(".", ","),
-            ),
-          );
-        });
-
-        const rangeStartPct = (start / Number(startRange.max)) * 100;
-        const rangeEndPct = (end / Number(endRange.max)) * 100;
-        rangeFill.style.left = `${rangeStartPct}%`;
-        rangeFill.style.right = `${100 - rangeEndPct}%`;
-        rangeTitle.textContent = `${monthLabels[start]} – ${monthLabels[end]}`;
-        startLabel.textContent = "Ocak 2011";
-        endLabel.textContent = monthLabels[end];
-      }
-
-      document
-        .querySelectorAll(".dropdown-card .menu-title")
-        .forEach((button) => {
-          button.addEventListener("click", () => {
-            const card = button.closest(".dropdown-card");
-            const isOpen = card.classList.contains("open");
-            const group = card.dataset.group;
-            document
-              .querySelectorAll(`.dropdown-card[data-group="${group}"]`)
-              .forEach((item) => item.classList.remove("open"));
-            if (!isOpen) card.classList.add("open");
-          });
-        });
-
-      document.querySelectorAll(".dropdown-menu .menu-item").forEach((item) => {
-        item.addEventListener("click", (e) => {
-          const menu = item.closest(".dropdown-menu");
-          const card = item.closest(".dropdown-card");
-          const group = card.dataset.group;
-
-          menu
-            .querySelectorAll(".menu-item")
-            .forEach((btn) => btn.classList.remove("active"));
-          item.classList.add("active");
-
-          document
-            .querySelectorAll(`.dropdown-card[data-group="${group}"]`)
-            .forEach((otherCard) => {
-              otherCard.classList.remove("show-linked-table");
+        $(function () {
+            $(".dropdown-menu > li > a.trigger").on("click", function (e) {
+                var current = $(this).next();
+                var grandparent = $(this).parent().parent();
+                if ($(this).hasClass('left-caret') || $(this).hasClass('right-caret')) {
+                    $(this).toggleClass('right-caret left-caret');
+                }
+                grandparent.find('.left-caret').not(this).toggleClass('right-caret left-caret');
+                grandparent.find(".sub-menu:visible").not(current).hide();
+                current.toggle();
+                e.stopPropagation();
             });
 
-          card.classList.add("show-linked-table");
-          card.classList.remove("open");
-          e.stopPropagation();
+            $(".dropdown-menu > li > a:not(.trigger)").on("click", function () {
+                var root = $(this).closest('.dropdown');
+                root.find('.left-caret').toggleClass('right-caret left-caret');
+                root.find('.sub-menu:visible').hide();
+            });
+
+            if ($(window).width() < 750) {
+                $(".navbar-tr").removeAttr("style");
+                $(".navbar-en").removeAttr("style");
+                $(".navbar-web").attr("style", "display: none!important;");
+            }
         });
-      });
 
-      document.addEventListener("click", (e) => {
-        if (!e.target.closest(".dropdown-card")) {
-          document
-            .querySelectorAll(".dropdown-card")
-            .forEach((card) => card.classList.remove("open"));
-        }
-      });
+        (function () {
+            var frame = document.getElementById("tableFrame");
 
-      startRange.addEventListener("input", renderChart);
-      endRange.addEventListener("input", renderChart);
+            function resizeFrame() {
+                if (!frame || !frame.contentWindow) {
+                    return;
+                }
 
-      renderChart();
+                var doc = frame.contentWindow.document;
+                if (!doc || !doc.documentElement) {
+                    return;
+                }
+
+                var height = Math.max(
+                    doc.body ? doc.body.scrollHeight : 0,
+                    doc.documentElement.scrollHeight
+                );
+
+                frame.style.height = height + "px";
+            }
+
+            if (frame) {
+                frame.addEventListener("load", function () {
+                    resizeFrame();
+                    frame.contentWindow.addEventListener("resize", resizeFrame);
+                    window.setTimeout(resizeFrame, 150);
+                });
+
+                window.addEventListener("resize", resizeFrame);
+            }
+        })();
     </script>
-  </body>
+</body>
 </html>

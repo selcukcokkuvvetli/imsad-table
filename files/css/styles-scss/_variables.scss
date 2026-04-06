@@ -1,0 +1,60 @@
+﻿$primary: #5644D1;
+$info: #007BFF;
+$brand-primary: $primary;
+$color-tim: #1E1177;
+$color-turquise: #00AAC9;
+$color-tdp-blue: #105BAB;
+
+
+@import "../../../lib/bootstrap/scss/functions";
+@import "../../../lib/bootstrap/scss/variables";
+
+$enable-rounded: true;
+
+$font-family-sans-serif: Montserrat, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+$font-family-monospace: Montserrat, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+$font-family-base: $font-family-sans-serif;
+$font-family-title: hgs, Montserrat, -apple-system, BlinkMacSystemFont, Montserrat, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+$font-family-roboto: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+
+
+$header-height: 90px;
+$header-menu-height: 60px;
+$header-height-lg: 80px;
+$header-height-md: 70px;
+$header-height-sm: 60px;
+$header-height-xs: 50px;
+
+$header-padding: 15px;
+$header-padding-lg: 15px;
+$header-padding-md: 12px;
+$header-padding-sm: 10px;
+$header-padding-xs: 8px;
+
+$header-logo-height: $header-height - ($header-padding * 2);
+$header-logo-height-lg: $header-height-lg - ($header-padding-lg * 2);
+$header-logo-height-md: $header-height-md - ($header-padding-md * 2);
+$header-logo-height-sm: $header-height-sm - ($header-padding-sm * 2);
+$header-logo-height-xs: $header-height-xs - ($header-padding-xs * 2);
+
+$color-section-bg: #EEEEEE;
+
+$circle-icon-button-size: 4rem;
+$circle-icon-button-size-sm: 3rem;
+
+$grid-breakpoints: ( 
+    xs: 0, 
+    sm: 576px,
+    md: 768px, 
+    lg: 992px, 
+    xl: 1200px,
+    xxl: 1380px
+);
+
+$container-max-widths: ( 
+    sm: 540px, 
+    md: 720px, 
+    lg: 960px, 
+    xl: 1140px,
+    xxl: 1340px
+);

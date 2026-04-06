@@ -1,0 +1,40 @@
+﻿@import "variables";
+
+html,
+body {
+    height:100%;
+}
+
+html.sr {
+    .load-hidden{
+        visibility:hidden;
+    }
+}
+
+html.inwebview{
+    body{
+        padding:20px;
+    }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: $font-family-title;
+    font-weight: 900;
+}
+
+p {
+    margin-block-end: 2em;
+    margin-bottom:2em;
+}
+
+a {
+    color: #4CA2FF;
+}
+
+.visible-mm-open {
+    display: none;
+}
+
+.fixed-mm-open {
+    z-index: 1300;
+}

@@ -1,0 +1,363 @@
+﻿
+//SLİDER
+.slider {
+    /* Make the image fully responsive */
+    .carousel-inner img {
+         width: 100%;
+        height: 100%;
+    /*    width: 100%;
+        height: fit-content;*/
+
+    }
+
+    .body-content {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+    /* .carousel-control-prev {
+        width: 100%;
+    }*/
+    .carousel-control-next-icon {
+        background: url(../img/slider/rs-minimal-white.png) transparent;
+        position: absolute;
+        cursor: pointer;
+        border-radius: 2px;
+        background-position: -68px -68px;
+        right: 7px;
+        bottom: 7px;
+        height: 32px;
+        width: 32px;
+        position: absolute;
+        display: block;
+        cursor: pointer;
+    }
+
+    .carousel-control-prev-icon {
+        right: 37px;
+        bottom: 7px;
+        background: url(../img/slider/rs-minimal-white.png) transparent;
+        background-position: -68px -36px;
+        height: 32px;
+        width: 32px;
+        margin-top: 3px;
+        margin-left: 3px;
+        position: absolute;
+        cursor: pointer;
+    }
+
+    .carousel-indicators {
+        width: 100%;
+        margin: 0px;
+        text-align: right;
+        float: right;
+        right: 80px !important;
+        left: inherit;
+        justify-content: flex-end;
+        margin-bottom: 9px;
+
+        li {
+            width: 6px;
+            height: 6px;
+            border-radius: 100%;
+        }
+    }
+}
+
+
+//SPOTS
+
+.home-spots {
+    padding: 30px 0;
+
+    .img-responsive, .thumbnail > img, .thumbnail a > img, .carousel-inner > .item > img, .carousel-inner > .item > a > img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+    }
+
+    #divMemberBox .memberBox1 {
+        width: 100%;
+    }
+
+    .logo-cont .logo-rotator {
+        max-width: 200px;
+        max-height: 80px;
+    }
+
+    .mb20 {
+        margin-bottom: 20px;
+    }
+
+    .home-buttons {
+        text-align: center;
+
+        a {
+            display: inline-block;
+            /*margin-bottom: 10px;*/
+        }
+    }
+
+    .uyeler-title {
+        background: #7e7880;
+        width: 100%;
+        height: 50px;
+        text-align: center;
+        line-height: 50px;
+        color: #ffffff;
+        font-weight: 700;
+        font-size: 14px;
+    }
+
+    .col-lg-2 {
+        width: 16.66666667%;
+    }
+
+    img {
+        vertical-align: middle;
+    }
+
+    .logo-cont {
+        height: 80px;
+        width: 25%;
+        line-height: 80px;
+        display: inline-block;
+        text-align: center;
+        /*border-right: 2px #979298 solid;*/
+    }
+}
+
+
+//SUPPORTER
+.imsad-supporter {
+    
+    background: #e6e4e4;
+    padding: 50px 0;
+    
+
+    .banner-cont.visible {
+        display: block !important;
+    }
+
+    .supporter-container {
+        outline: 1px solid #969696;
+        background: #ffffff;
+        padding: 4px;
+        position: relative;
+    }
+}
+
+
+.sub-page-detail {
+
+    body {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+        font-size: 14px !important;
+        line-height: 1.42857143 !important;
+        color: #333333 !important;
+        background-color: #ffffff !important;
+    }
+
+    p > span {
+        font-size: 14px;
+    }
+
+    h1 {
+        font-size: 17px !important;
+        font-weight: 700 !important;
+    }
+
+    h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        line-height: 1.1;
+        color: inherit;
+    }
+
+    h3 {
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    h2 {
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+
+    p {
+        margin: 0 0 10px !important;
+    }
+
+    p {
+        display: block !important;
+        margin-block-start: 1em !important;
+        margin-block-end: 1em !important;
+        margin-inline-start: 0px !important;
+        margin-inline-end: 0px !important;
+    }
+}
+
+.carousel-control-prev {
+    right: 5px;
+    left: unset;
+    width: 70px;
+}
+
+.carousel-control-next {
+    right: 0;
+    width: 40px;
+    z-index: 9999;
+}
+
+
+
+
+
+/*TAB*/
+
+.slider-wrapper {
+
+    .news-tab {
+        position: absolute;
+        top: 30px;
+        /*top: 40px;*/
+        right: 150px;
+        z-index: 999;
+        -webkit-box-shadow: 0px 2px 32px -2px rgba(0, 0, 0, 0.75);
+        -moz-box-shadow: 0px 2px 32px -2px rgba(0, 0, 0, 0.75);
+        box-shadow: 0px 2px 32px -2px rgba(0, 0, 0, 0.75);
+    }
+
+    #tab {
+        width: 252px;
+        /*height: 292px;*/
+        /*height: 232px;*/
+        height:262px;
+        background: url(../img/spot/bg-tab.jpg) no-repeat;
+        background-size: cover;
+
+        .nav-tabs {
+            height: 60px;
+
+            li {
+                width: 50%;
+                height: 60px;
+                text-align: center;
+
+                a {
+                    height: 60px;
+                    color: #ffffff;
+                    font-size: 19px;
+                    font-weight: 700;
+                    padding-top: 18px;
+                }
+            }
+        }
+
+        .tab-pane {
+            /*max-height: 220px;*/
+            /*max-height: 160px;*/
+            max-height: 190px;
+            overflow-y: scroll;
+
+            ul {
+                /*padding: 15px;*/
+                padding:10px;
+                margin: 0;
+                list-style: none;
+
+                li {
+                    border-bottom: 1px #827c84 solid;
+                    /* padding-bottom: 10px;
+                    margin-bottom: 10px;*/
+                    padding-bottom: 7px;
+                    margin-bottom: 7px;
+
+                    a {
+                        color: #827c84;
+                    }
+                }
+            }
+        }
+    }
+
+    .tab-content {
+        font-size: 13px;
+    }
+
+    .news-tab #tab .nav-tabs li.active a, .news-tab #tab .nav-tabs li:hover a {
+        background: url(../img/spot/bg-tab-active.jpg) bottom center no-repeat;
+        border: none;
+        color: #827c84;
+    }
+
+    .news-tab .all {
+        color: #827c84;
+        padding: 15px;
+        font-weight: 700;
+    }
+
+    .nav > li {
+        position: relative;
+        display: block;
+    }
+
+    .news-tab #tab .nav-tabs li {
+        width: 50%;
+        height: 60px;
+        text-align: center;
+    }
+
+    .nav > li > a {
+        position: relative;
+        display: block;
+        padding: 10px 15px;
+    }
+
+    .nav-tabs > li > a {
+        margin-right: 2px;
+        line-height: 1.42857143;
+        border: 1px solid transparent;
+        border-radius: 4px 4px 0 0;
+    }
+
+    .news-tab #tab .nav-tabs li a {
+        height: 60px;
+        color: #ffffff;
+        font-size: 19px;
+        font-weight: 700;
+        padding-top: 18px;
+    }
+
+    .nav-tabs > li {
+        float: left;
+        margin-bottom: -1px;
+    }
+}
+
+
+
+
+
+@media only screen and (max-width: 1245px) {
+/*@media only screen and (max-width: 600px) {*/
+    .slider {
+        /* Make the image fully responsive */
+        .carousel-inner img {
+            /* width: 100%;
+        height: 100%;*/
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .slider-wrapper .news-tab {
+        display:none;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .memberBox1 {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+}

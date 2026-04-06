@@ -1,0 +1,184 @@
+﻿.sub-page {
+    /*padding-top: 30px;*/
+    padding-bottom: 30px;
+    min-height: 400px;
+}
+ul, ol {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+ol {
+    display: block;
+    list-style-type: decimal;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+}
+
+
+
+.breadcrumb {
+    padding: 8px 15px;
+    margin-bottom: 20px;
+    list-style: none;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+
+    li {
+        display: list-item;
+        text-align: -webkit-match-parent;
+    }
+
+    a {
+        color: #428bca;
+        text-decoration: none;
+    }
+
+    li {
+        display: inline-block;
+        text-align: -webkit-match-parent;
+    }
+}
+
+
+
+
+.breadcrumb > li + li:before {
+    padding: 0 5px;
+    color: #ccc;
+    content: "/ ";
+}
+
+.endeks {
+
+    #endeks-no1 {
+        background: url(../img/spot/endeks/endeks-logo-1.jpg) bottom center no-repeat;
+        color: #ed7d31;
+    }
+
+    #endeks-no2 {
+        background: url(../img/spot/endeks/endeks-logo-2.jpg) bottom center no-repeat;
+        color: #0086c3;
+    }
+
+    #endeks-no4 {
+        background: url(../img/spot/endeks/endeks-logo-4.jpg) bottom center no-repeat;
+        color: #0086c3;
+    }
+
+    #endeks-no3 {
+        background: url(../img/spot/endeks/endeks-logo-3.jpg) bottom center no-repeat;
+        color: #ed7d31;
+    }
+
+    .section-box {
+        min-height: 320px;
+        margin: 50px 0;
+        display: block;
+        text-align: center;
+        background-size: 294px !important;
+    }
+
+    .section-box img {
+        width: 208px;
+        transition-delay: .3s;
+        -moz-transition-delay: .3s;
+        -webkit-transition-delay: .3s;
+        -o-transition-delay: .3s;
+        transition-duration: 2s;
+        -moz-transition-duration: 2s;
+        -webkit-transition-duration: 2s;
+        -o-transition-duration: 2s;
+    }
+
+
+    .image {
+        -webkit-transition-duration: 2s;
+        -moz-transition-duration: 2s;
+        -o-transition-duration: 2s;
+        transition-duration: 2s;
+        -webkit-transition-property: -webkit-transform;
+        -moz-transition-property: -moz-transform;
+        -o-transition-property: -o-transform;
+        transition-property: transform;
+    }
+
+    .image:hover {
+        -webkit-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+.yayin-item {
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 14px;
+    min-height: 150px;
+
+    .basin-bulteni {
+        display:block;
+        width: 100%;
+        height: auto;
+        padding: 10px;
+        background: #5c5c5c;
+        color: #ffffff;
+        font-size: 14px;
+
+        /*.hidden {
+            display: none !important;
+        }
+
+        .visible {
+            display: block !important;
+        }*/
+    }
+
+  
+    .visible {
+        display: block!important;
+    }
+
+
+    .sub-page .page-content img {
+        margin: 10px;
+    }
+
+    img {
+        margin: 0 !important;
+    }
+
+    .date {
+        background: #ccc8c8 !important;
+        padding: 5px !important;
+    }
+
+    .item-info {
+        padding: 10px !important;
+        background: #e6e4e4 !important;
+        font-weight: 400 !important;
+
+        a {
+            color: #666168 !important;
+            text-decoration: none !important;
+
+            &:hover, a:focus {
+                color: #23527c;
+                text-decoration: underline;
+            }
+        }
+
+       /* .hidden {
+            display: none!important;
+        }*/
+    }
+
+
+    .hidden{
+        display:none;
+    }
+}
+

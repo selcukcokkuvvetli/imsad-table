@@ -1,0 +1,179 @@
+﻿@import "variables";
+@import "mixins";
+
+.circle-icon-button {
+    width: $circle-icon-button-size;
+    height: $circle-icon-button-size;
+    line-height: $circle-icon-button-size;
+    color: #000;
+    text-align: center;
+    background: transparent;
+    font-size: $circle-icon-button-size/2.6666666;
+    text-decoration: none;
+    @include box-shadow(0 0 20px 0 rgba(0,0,0,0));
+    border-radius: 50%;
+
+    @include transition(.3s);
+
+    &:active,
+    &:focus,
+    &:hover {
+        color: #FFF;
+        background: $brand-primary;
+        @include box-shadow(0 0 20px 0 rgba(0,0,0,.15));
+    }
+}
+
+.asset-gallery {
+    .owl-carousel {
+        padding: 0 4rem;
+
+        .owl-prev, .owl-next {
+            position: absolute;
+            top: 50%;
+            margin-top: -3rem;
+            @include opacity(0);
+            @include transition();
+
+            &.disabled {
+                display: none;
+            }
+
+            &:focus,
+            &:active,
+            &:hover {
+                outline: none;
+            }
+        }
+
+        .owl-prev {
+            left: 0;
+        }
+
+        .owl-next {
+            right: 0;
+        }
+
+        &:hover {
+            .owl-prev, .owl-next {
+                @include opacity(1);
+
+                &.disabled {
+                    display: none;
+                }
+            }
+        }
+
+        .owl-stage {
+            margin: 0 auto;
+        }
+
+        .owl-item {
+            padding: 1rem;
+            font-size: 1rem;
+            line-height: normal;
+
+            a {
+                display: block;
+                color: #000;
+
+
+                &:focus,
+                &:active,
+                &:hover {
+                    text-decoration: none;
+                }
+            }
+
+            span {
+                display: block;
+                background-color: #FFF;
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+
+            strong {
+                font-weight: normal;
+                display: block;
+                padding: 1rem;
+            }
+        }
+    }
+}
+
+.ripple {
+    position: absolute;
+    display: block;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 50%;
+    -webkit-animation: ripple-effect-reverse 0.35s;
+    animation: ripple-effect-reverse 0.35s;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    z-index:0;
+
+    &.active {
+        -webkit-animation: ripple-effect 0.4s;
+        animation: ripple-effect 0.4s;
+        -webkit-animation-fill-mode: forwards;
+        animation-fill-mode: forwards;
+    }
+}
+
+@-webkit-keyframes ripple-effect {
+    0% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+
+    100% {
+        -webkit-transform: scale(2.5);
+        transform: scale(2.5);
+    }
+}
+
+@keyframes ripple-effect {
+    0% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+
+    100% {
+        -webkit-transform: scale(2.5);
+        transform: scale(2.5);
+    }
+}
+
+@-webkit-keyframes ripple-effect-reverse {
+    0% {
+        -webkit-transform: scale(2.5);
+        transform: scale(2.5);
+    }
+
+    100% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+}
+
+@keyframes ripple-effect-reverse {
+    0% {
+        -webkit-transform: scale(2.5);
+        transform: scale(2.5);
+    }
+
+    100% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+}
+
+
+@include media-breakpoint-down(sm) {
+    .circle-icon-button {
+        width: $circle-icon-button-size-sm;
+        height: $circle-icon-button-size-sm;
+        line-height: $circle-icon-button-size-sm;
+        font-size: $circle-icon-button-size-sm/2.4;
+    }
+}

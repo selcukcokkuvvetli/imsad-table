@@ -1,0 +1,103 @@
+﻿@import "../../../lib/bootstrap/scss/mixins";
+
+// =============================================================================
+// String Replace
+// =============================================================================
+
+@function str-replace($string, $search, $replace: "") {
+    $index: str-index($string, $search);
+
+    @if $index {
+        @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+    }
+
+    @return $string;
+}
+
+// =============================================================================
+// Font Face
+// =============================================================================
+
+@mixin font-face($name, $path, $weight: null, $style: null, $exts: eot woff2 woff ttf otf) {
+    $src: null;
+
+    $extmods: ( eot: "?", svg: "#" + str-replace($name, " ", "_") );
+
+    $formats: ( otf: "opentype", ttf: "truetype" );
+
+    @each $ext in $exts {
+        $extmod: if(map-has-key($extmods, $ext), $ext + map-get($extmods, $ext), $ext);
+        $format: if(map-has-key($formats, $ext), map-get($formats, $ext), $ext);
+        $src: append($src, url(quote($path + "." + $extmod)) format(quote($format)), comma);
+    }
+
+    @font-face {
+        font-family: quote($name);
+        font-style: $style;
+        font-weight: $weight;
+        src: $src;
+    }
+}
+
+
+
+
+@mixin transform($transform) {
+    -o-transform: $transform;
+    -moz-transform: $transform;
+    -webkit-transform: $transform;
+    transform: $transform;
+}
+
+@mixin transition($duration: .3s) {
+    -moz-transition: all $duration ease;
+    -o-transition: all $duration ease;
+    -webkit-transition: all $duration ease;
+    transition: all $duration ease;
+}
+
+
+@mixin clearfix() {
+    &:before,
+    &:after {
+        content: " "; // 1
+        display: table; // 2
+    }
+
+    &:after {
+        clear: both;
+    }
+}
+
+@mixin opacity($opacity) {
+    opacity: $opacity;
+    // IE8 filter
+    $opacity-ie: ($opacity * 100);
+    filter: #{"alpha(opacity=${opacity-ie})"};
+}
+
+@mixin box-shadow($shadow: 0px 3px 6px 0px rgba(0,0,0,0.15)) {
+    box-shadow: $shadow;
+    -webkit-box-shadow: $shadow;
+    -moz-box-shadow: $shadow;
+}
+
+@mixin shadow1() {
+    -webkit-box-shadow: 0px 3px 20px 0px rgba(0,0,0,0.16);
+    -moz-box-shadow: 0px 3px 20px 0px rgba(0,0,0,0.16);
+    box-shadow: 0px 3px 20px 0px rgba(0,0,0,0.16);
+}
+
+@mixin shadow2() {
+    -webkit-box-shadow: 0px 3px 25px 0px rgba(0,0,0,0.46);
+    -moz-box-shadow: 0px 3px 25px 0px rgba(0,0,0,0.46);
+    box-shadow: 0px 3px 25px 0px rgba(0,0,0,0.46);
+}
+
+@mixin flex() {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+}
