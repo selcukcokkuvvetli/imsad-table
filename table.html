@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="tr" class="light">
 <head>
   <meta charset="UTF-8" />
@@ -115,7 +115,7 @@
     }
 
     body.is-embedded .card-grid {
-      grid-template-columns: repeat(5, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 12px;
       margin-bottom: 22px;
     }
@@ -414,7 +414,7 @@
 
     .card-grid {
       display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 16px;
       margin-bottom: 32px;
     }
@@ -479,6 +479,27 @@
       color: rgba(255,255,255,0.85);
     }
 
+    .index-card.active-card {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 32px rgba(20, 27, 36, 0.12);
+    }
+
+    .card-value {
+      margin-top: 14px;
+      font-size: 34px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+    }
+
+    .card-delta {
+      margin-top: 8px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      opacity: 0.88;
+    }
+
     .surface-card {
       background: var(--surface);
       border-radius: var(--radius);
@@ -517,6 +538,17 @@
       font-size: 13px;
       font-weight: 700;
       color: #4c5b70;
+      cursor: pointer;
+      user-select: none;
+      transition: opacity 0.18s ease, transform 0.18s ease;
+    }
+
+    .legend-item:hover {
+      transform: translateY(-1px);
+    }
+
+    .legend-item.is-hidden {
+      opacity: 0.38;
     }
 
     .legend-dot {
@@ -669,6 +701,136 @@
       text-transform: uppercase;
     }
 
+    .table-scroll {
+      width: 100%;
+      overflow: auto;
+      margin-top: 18px;
+      border-radius: 18px;
+      border: 1px solid #eef1f5;
+    }
+
+    .detail-table {
+      width: 100%;
+      min-width: 840px;
+      border-collapse: collapse;
+      background: #fff;
+    }
+
+    .detail-table thead th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      padding: 16px 14px;
+      background: #f8f9fc;
+      border-bottom: 1px solid #e8ecf3;
+      color: #7a8799;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .detail-table thead th:first-child,
+    .detail-table tbody td:first-child {
+      text-align: left;
+      position: sticky;
+      left: 0;
+      z-index: 1;
+      background: inherit;
+    }
+
+    .detail-table tbody tr:nth-child(odd) td {
+      background: #fcfcfe;
+    }
+
+    .detail-table tbody tr:hover td {
+      background: #f5f8fc;
+    }
+
+    .detail-table tbody td {
+      padding: 14px;
+      border-bottom: 1px solid #eef1f5;
+      text-align: right;
+      font-size: 13px;
+      font-weight: 700;
+      color: #223041;
+      white-space: nowrap;
+    }
+
+    .detail-table tbody td:first-child {
+      min-width: 300px;
+      color: #425166;
+      font-weight: 800;
+    }
+
+    .detail-table tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .insight-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: linear-gradient(180deg, #f4f7fb 0%, #eef3f8 100%);
+    }
+
+    .insight-card h3 {
+      margin: 0 0 12px;
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .insight-card p {
+      margin: 0;
+      color: #607087;
+      line-height: 1.65;
+      font-size: 14px;
+    }
+
+    .insight-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .insight-item {
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.78);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.9);
+    }
+
+    .insight-label {
+      display: block;
+      margin-bottom: 6px;
+      color: #7a8799;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .insight-value {
+      display: block;
+      color: #1e2c3b;
+      font-size: 22px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+    }
+
+    .insight-note {
+      display: block;
+      margin-top: 6px;
+      color: #607087;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
     .bottom-grid {
       display: grid;
       grid-template-columns: 2fr 1.15fr;
@@ -772,7 +934,7 @@
     }
 
     @media (max-width: 1400px) {
-      .card-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .card-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     }
 
     @media (max-width: 1200px) {
@@ -823,77 +985,45 @@
     </div>
   </header>
 
-  <div class="app">
+    <div class="app">
     <aside class="sidebar">
       <div class="sidebar-head">
         <h2>İMSAD</h2>
         <p>Sanayi Endeksleri</p>
       </div>
-      <nav class="side-nav">
-        <a href="#" class="side-link active"><span class="material-symbols-outlined">analytics</span><span>Bileşik Endeks</span></a>
-        <a href="#" class="side-link"><span class="material-symbols-outlined">trending_up</span><span>Faaliyet Endeksi</span></a>
-        <a href="#" class="side-link"><span class="material-symbols-outlined">verified_user</span><span>Güven Endeksi</span></a>
-        <a href="#" class="side-link"><span class="material-symbols-outlined">visibility</span><span>Beklenti Endeksi</span></a>
-        <a href="#" class="side-link"><span class="material-symbols-outlined">language</span><span>Dış Ticaret</span></a>
-        <a href="urun-gruplari.html" class="side-link"><span class="material-symbols-outlined">category</span><span>&#220;r&#252;n Gruplar&#305;</span></a>
-      </nav>
+      <nav class="side-nav" id="sideNav"></nav>
       <div class="sidebar-footer">
-        <a href="urun-gruplari.html" class="export-btn link">&#220;r&#252;n Gruplar&#305; Sayfas&#305;</a>
+        <button class="export-btn" id="datasetMetaBtn">12 Dönem Veri</button>
       </div>
     </aside>
 
     <main class="main">
       <section class="hero">
         <div>
-          <h1>ENDEKS GÖRÜNÜMÜ</h1>
-          <div class="period"><span class="material-symbols-outlined" style="font-size:18px;">calendar_today</span>Kasım 2025 Dönemi Verileri</div>
+          <h1 id="heroTitle">İNŞAAT MALZEMESİ SANAYİ ENDEKSLERİ</h1>
+          <div class="period"><span class="material-symbols-outlined" style="font-size:18px;">calendar_today</span><span id="heroPeriod">Ağu.25 dönemi verileri</span></div>
         </div>
         <div class="status-box">
           <div>
-            <div class="mini">Güncel Durum</div>
-            <div class="value">+6,13</div>
+            <div class="mini" id="statusLabel">Güncel Durum</div>
+            <div class="value" id="statusValue">79,8</div>
           </div>
           <div class="status-divider"></div>
-          <div style="font-size:13px; color:#5f6f85; font-weight:600; max-width:150px; line-height:1.35;">Endeksin bir önceki döneme göre değişimi</div>
+          <div id="statusNote" style="font-size:13px; color:#5f6f85; font-weight:600; max-width:180px; line-height:1.35;">Bir önceki döneme göre değişim burada gösterilir.</div>
         </div>
       </section>
 
-      <section class="card-grid">
-        <a href="#" class="index-card primary">
-          <span class="material-symbols-outlined">analytics</span>
-          <div><small>Bileşik</small><strong>Bileşik Endeks</strong></div>
-        </a>
-        <a href="#" class="index-card activity">
-          <span class="material-symbols-outlined" style="color:var(--secondary);">trending_up</span>
-          <div><small>Sanayi</small><strong>Faaliyet Endeksi</strong></div>
-        </a>
-        <a href="#" class="index-card trust">
-          <span class="material-symbols-outlined" style="color:#8f7d00;">verified_user</span>
-          <div><small>Algı</small><strong>Güven Endeksi</strong></div>
-        </a>
-        <a href="#" class="index-card expect">
-          <span class="material-symbols-outlined" style="color:#98a3b5;">visibility</span>
-          <div><small>Gelecek</small><strong>Beklenti Endeksi</strong></div>
-        </a>
-        <a href="#" class="index-card trade">
-          <span class="material-symbols-outlined">language</span>
-          <div><small>Küresel</small><strong>Dış Ticaret Endeksi</strong></div>
-        </a>
-      </section>
+      <section class="card-grid" id="cardGrid"></section>
 
       <section class="surface-card">
         <div class="chart-head">
           <div>
-            <h2>İHRACAT DEĞER ENDEKSLERİ</h2>
-            <div class="legend">
-              <span class="legend-item"><span class="legend-dot legend-red"></span>İhracat Birim Fiyat</span>
-              <span class="legend-item"><span class="legend-dot legend-blue"></span>İhracat Miktar</span>
-              <span class="legend-item"><span class="legend-dot legend-olive"></span>Genel Endeks</span>
-            </div>
+            <h2 id="chartTitle">Faaliyet Endeksi</h2>
+            <div class="legend" id="legend"></div>
           </div>
           <div class="view-toggle">
-            <button class="toggle-btn">Aylık</button>
-            <button class="toggle-btn active">Yıllık</button>
+            <button class="toggle-btn active" id="focusAllBtn">Tüm Seriler</button>
+            <button class="toggle-btn" id="focusIndexBtn">Sadece Endeks</button>
           </div>
         </div>
 
@@ -907,8 +1037,8 @@
             <div class="range-track"></div>
             <div class="range-fill" id="rangeFill"></div>
             <div class="dual-range">
-              <input type="range" id="startRange" min="0" max="12" value="3">
-              <input type="range" id="endRange" min="0" max="12" value="12">
+              <input type="range" id="startRange" min="0" max="11" value="0">
+              <input type="range" id="endRange" min="0" max="11" value="11">
             </div>
             <div class="range-notes" id="rangeNotes"></div>
           </div>
@@ -917,96 +1047,443 @@
 
       <section class="bottom-grid">
         <div class="surface-card report-card">
-          <h3>Endüstriyel Raporlar</h3>
-          <p>2025 yılı inşaat malzemesi sanayi dış ticaret verileri ve pazar beklentileri analizini içeren kapsamlı teknik döküman yayında.</p>
-          <button class="doc-btn">İndir (PDF, 4.2 MB)</button>
-          <span class="material-symbols-outlined ghost-icon">description</span>
+          <h3 id="tableTitle">Detay Veri Tablosu</h3>
+          <p id="tableDescription">Seçilen ana başlığın alt başlıkları, aynı tarih ekseni üzerinde tablo olarak gösterilir.</p>
+          <div class="table-scroll">
+            <table class="detail-table" id="detailTable"></table>
+          </div>
         </div>
 
-        <div class="surface-card newsletter-card">
-          <div class="mail-badge"><span class="material-symbols-outlined" style="font-size:30px;">mail</span></div>
-          <h3>Bültene Abone Ol</h3>
-          <p>En son endeks verileri anında e-postanıza gelsin.</p>
-          <div class="newsletter-form">
-            <input type="email" placeholder="E-posta adresi">
-            <button>KAYDOL</button>
+        <div class="surface-card insight-card">
+          <div>
+            <h3 id="insightTitle">Seçili Grup Özeti</h3>
+            <p id="insightIntro">CSV’de ana başlığın altındaki bütün satırlar burada özetlenir.</p>
+            <div class="insight-list" id="insightList"></div>
           </div>
+          <span class="material-symbols-outlined ghost-icon">analytics</span>
         </div>
       </section>
     </main>
   </div>
 
+  <script src="files/js/endeks-data.js"></script>
   <script>
     if (window.location.search.indexOf('embed=1') > -1) {
       document.body.classList.add('is-embedded');
     }
 
-    const labels = ['Kas 2021','Mar 2022','Tem 2022','Kas 2022','Mar 2023','Kas 2023','Mar 2024','Kas 2024','Mar 2025','Kas 2025'];
-    const series = {
-      red: [255, 220, 236, 198, 318, 286, 415, 381, 484, 448],
-      blue: [286, 258, 277, 248, 321, 308, 358, 321, 416, 382],
-      olive: [224, 198, 187, 154, 274, 242, 361, 328, 448, 416]
+    const rawCsv = window.imsadEndeksCsv;
+
+    const iconMap = {
+      'Bileşik Endeks': 'analytics',
+      'Faaliyet Endeksi': 'trending_up',
+      'Güven Endeksi': 'verified_user',
+      'Beklenti Endeksi': 'visibility'
     };
 
+    const cardClassMap = {
+      'Bileşik Endeks': 'primary',
+      'Faaliyet Endeksi': 'activity',
+      'Güven Endeksi': 'trust',
+      'Beklenti Endeksi': 'expect'
+    };
+
+    const linePalette = ['#c70612', '#0d6d9a', '#9a8700', '#0f766e', '#ea580c', '#475569', '#7c2d12', '#0891b2'];
+    const NS = 'http://www.w3.org/2000/svg';
+
+    function parseCsv(raw) {
+      const lines = raw.trim().split(/\r?\n/);
+      const headers = lines[0].split(';').map((item) => item.trim());
+      const dates = headers.slice(1);
+      const groups = [];
+      let currentGroup = null;
+
+      for (let index = 1; index < lines.length; index += 1) {
+        const cells = lines[index].split(';');
+        const label = (cells[0] || '').trim();
+        const values = cells.slice(1).map((item) => item.trim());
+        const hasValue = values.some(Boolean);
+
+        if (!label && !hasValue) {
+          continue;
+        }
+
+        if (!hasValue) {
+          currentGroup = { title: label, series: [] };
+          groups.push(currentGroup);
+          continue;
+        }
+
+        if (!currentGroup) {
+          continue;
+        }
+
+        currentGroup.series.push({
+          name: label,
+          values: values.map((item) => item ? Number(item.replace(',', '.')) : null)
+        });
+      }
+
+      return { title: headers[0], dates, groups };
+    }
+
+    const dataset = parseCsv(rawCsv);
+    const state = {
+      groupIndex: Math.min(1, dataset.groups.length - 1),
+      focusMode: 'all',
+      hiddenSeries: new Set()
+    };
+
+    const heroTitle = document.getElementById('heroTitle');
+    const heroPeriod = document.getElementById('heroPeriod');
+    const statusLabel = document.getElementById('statusLabel');
+    const statusValue = document.getElementById('statusValue');
+    const statusNote = document.getElementById('statusNote');
+    const sideNav = document.getElementById('sideNav');
+    const cardGrid = document.getElementById('cardGrid');
+    const chartTitle = document.getElementById('chartTitle');
+    const legend = document.getElementById('legend');
     const chartSvg = document.getElementById('chartSvg');
     const startRange = document.getElementById('startRange');
     const endRange = document.getElementById('endRange');
     const rangeFill = document.getElementById('rangeFill');
     const rangeNotes = document.getElementById('rangeNotes');
-    const NS = 'http://www.w3.org/2000/svg';
+    const detailTable = document.getElementById('detailTable');
+    const tableTitle = document.getElementById('tableTitle');
+    const tableDescription = document.getElementById('tableDescription');
+    const insightTitle = document.getElementById('insightTitle');
+    const insightIntro = document.getElementById('insightIntro');
+    const insightList = document.getElementById('insightList');
+    const datasetMetaBtn = document.getElementById('datasetMetaBtn');
+    const focusAllBtn = document.getElementById('focusAllBtn');
+    const focusIndexBtn = document.getElementById('focusIndexBtn');
 
-    function n(name, attrs = {}, text = '') {
+    function svgNode(name, attrs = {}, text = '') {
       const el = document.createElementNS(NS, name);
-      Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v));
-      if (text) el.textContent = text;
+      Object.entries(attrs).forEach(([key, value]) => el.setAttribute(key, value));
+      if (text) {
+        el.textContent = text;
+      }
       return el;
+    }
+
+    function formatNumber(value) {
+      return new Intl.NumberFormat('tr-TR', {
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 1
+      }).format(value);
+    }
+
+    function formatSigned(value) {
+      const sign = value > 0 ? '+' : '';
+      return `${sign}${formatNumber(value)}`;
+    }
+
+    function getGroup() {
+      return dataset.groups[state.groupIndex];
+    }
+
+    function getIndexSeries(group) {
+      return group.series.find((item) => item.name === 'Endeks') || group.series[0];
+    }
+
+    function getSeriesColor(group, seriesName) {
+      const index = group.series.findIndex((item) => item.name === seriesName);
+      return linePalette[(index < 0 ? 0 : index) % linePalette.length];
+    }
+
+    function getVisibleSeries(group) {
+      if (state.focusMode === 'index') {
+        return [getIndexSeries(group)];
+      }
+      const visible = group.series.filter((item) => !state.hiddenSeries.has(item.name));
+      return visible.length ? visible : [getIndexSeries(group)];
+    }
+
+    function getLatest(values) {
+      return values[values.length - 1];
+    }
+
+    function getPrevious(values) {
+      return values[values.length - 2];
+    }
+
+    function notifyEmbedHeight() {
+      if (!document.body.classList.contains('is-embedded') || window.parent === window) {
+        return;
+      }
+
+      const app = document.querySelector('.app');
+      const height = Math.ceil(app ? app.getBoundingClientRect().height : document.body.scrollHeight);
+      window.parent.postMessage({
+        type: 'imsad-table-height',
+        height
+      }, '*');
+    }
+
+    function getNiceAxis(values, groupTitle = '') {
+      const min = Math.min(...values);
+      const max = Math.max(...values);
+      const isPriorityIndexGroup = /faaliyet/i.test(groupTitle) || /beklenti/i.test(groupTitle) || /g.{0,3}ven/i.test(groupTitle);
+
+      if (min === max) {
+        return {
+          min: min - 10,
+          max: max + 10,
+          ticks: [min - 10, min, min + 10]
+        };
+      }
+
+      const range = max - min;
+      const roughStep = range / 3;
+      const magnitude = 10 ** Math.floor(Math.log10(roughStep));
+      const normalized = roughStep / magnitude;
+      const niceFactor = normalized <= 1 ? 1 : normalized <= 2 ? 2 : normalized <= 5 ? 5 : 10;
+      const step = niceFactor * magnitude;
+      const padding = Math.max(range * 0.06, step * 0.15);
+      let axisMin = Math.floor((min - padding) / step) * step;
+      let axisMax = Math.ceil((max + padding) / step) * step;
+      const ticks = [];
+
+      if (axisMax - max > step * 0.55 && axisMax - step > max) {
+        axisMax -= step;
+      }
+
+      if (min - axisMin > step * 0.55 && axisMin + step < min) {
+        axisMin += step;
+      }
+
+      axisMin = Math.max(0, axisMin);
+
+      if (isPriorityIndexGroup && max > 180) {
+        const preferredMax = max <= 250 ? 250 : 275;
+        const preferredStep = preferredMax === 250 ? 50 : 55;
+
+        return {
+          min: 0,
+          max: preferredMax,
+          ticks: Array.from({ length: Math.round(preferredMax / preferredStep) + 1 }, (_, index) => index * preferredStep)
+        };
+      }
+
+      for (let value = axisMin; value <= axisMax + step * 0.1; value += step) {
+        ticks.push(Number(value.toFixed(2)));
+      }
+
+      return {
+        min: axisMin,
+        max: axisMax,
+        ticks
+      };
     }
 
     function clampRange() {
       let start = Number(startRange.value);
       let end = Number(endRange.value);
       const minGap = 2;
+
       if (end - start < minGap) {
         if (document.activeElement === startRange) {
           start = Math.max(0, end - minGap);
           startRange.value = start;
         } else {
-          end = Math.min(labels.length - 1, start + minGap);
+          end = Math.min(dataset.dates.length - 1, start + minGap);
           endRange.value = end;
         }
       }
     }
 
+    function renderSidebar() {
+      sideNav.innerHTML = dataset.groups.map((group, index) => `
+        <a href="#" class="side-link ${index === state.groupIndex ? 'active' : ''}" data-index="${index}">
+          <span class="material-symbols-outlined">${iconMap[group.title] || 'insights'}</span>
+          <span>${group.title}</span>
+        </a>
+      `).join('');
+
+      sideNav.querySelectorAll('.side-link').forEach((link) => {
+        link.addEventListener('click', (event) => {
+          event.preventDefault();
+          state.groupIndex = Number(link.dataset.index);
+          state.hiddenSeries = new Set();
+          state.focusMode = 'all';
+          focusAllBtn.classList.add('active');
+          focusIndexBtn.classList.remove('active');
+          renderAll();
+        });
+      });
+    }
+
+    function renderCards() {
+      cardGrid.innerHTML = dataset.groups.map((group, index) => {
+        const indexSeries = getIndexSeries(group);
+        const latest = getLatest(indexSeries.values);
+        const previous = getPrevious(indexSeries.values);
+        const delta = latest - previous;
+
+        return `
+          <a href="#" class="index-card ${cardClassMap[group.title] || ''} ${index === state.groupIndex ? 'active-card' : ''}" data-index="${index}">
+            <span class="material-symbols-outlined">${iconMap[group.title] || 'insights'}</span>
+            <div>
+              <small>${indexSeries.name}</small>
+              <strong>${group.title}</strong>
+              <div class="card-value">${formatNumber(latest)}</div>
+              <div class="card-delta">${formatSigned(delta)} | Son dönem</div>
+            </div>
+          </a>
+        `;
+      }).join('');
+
+      cardGrid.querySelectorAll('.index-card').forEach((card) => {
+        card.addEventListener('click', (event) => {
+          event.preventDefault();
+          state.groupIndex = Number(card.dataset.index);
+          state.hiddenSeries = new Set();
+          state.focusMode = 'all';
+          focusAllBtn.classList.add('active');
+          focusIndexBtn.classList.remove('active');
+          renderAll();
+        });
+      });
+    }
+
+    function renderHeader() {
+      const group = getGroup();
+      const indexSeries = getIndexSeries(group);
+      const latest = getLatest(indexSeries.values);
+      const previous = getPrevious(indexSeries.values);
+      const delta = latest - previous;
+
+      heroTitle.textContent = dataset.title;
+      heroPeriod.textContent = `${dataset.dates[dataset.dates.length - 1]} dönemi verileri`;
+      statusLabel.textContent = group.title;
+      statusValue.textContent = formatNumber(latest);
+      statusNote.textContent = `${dataset.dates[dataset.dates.length - 2]} dönemine göre ${formatSigned(delta)} puan değişim.`;
+      datasetMetaBtn.textContent = `${dataset.dates.length} Dönem / ${group.series.length} Seri`;
+    }
+
+    function renderLegend(group) {
+      legend.innerHTML = group.series.map((item) => `
+        <span class="legend-item ${state.hiddenSeries.has(item.name) ? 'is-hidden' : ''}" data-series-name="${item.name}">
+          <span class="legend-dot" style="background:${getSeriesColor(group, item.name)}"></span>
+          ${item.name}
+        </span>
+      `).join('');
+
+      legend.querySelectorAll('.legend-item').forEach((item) => {
+        item.addEventListener('click', () => {
+          if (state.focusMode === 'index') {
+            return;
+          }
+
+          const seriesName = item.dataset.seriesName;
+          const group = getGroup();
+          const visibleCount = group.series.filter((series) => !state.hiddenSeries.has(series.name)).length;
+
+          if (state.hiddenSeries.has(seriesName)) {
+            state.hiddenSeries.delete(seriesName);
+          } else if (visibleCount > 1) {
+            state.hiddenSeries.add(seriesName);
+          }
+
+          drawChart();
+        });
+      });
+    }
+
+    function renderTable(group, start, end) {
+      const visibleDates = dataset.dates.slice(start, end + 1);
+      detailTable.innerHTML = `
+        <thead>
+          <tr>
+            <th>Alt Başlık</th>
+            ${visibleDates.map((date) => `<th>${date}</th>`).join('')}
+          </tr>
+        </thead>
+        <tbody>
+          ${group.series.map((series) => `
+            <tr>
+              <td>${series.name}</td>
+              ${series.values.slice(start, end + 1).map((value) => `<td>${formatNumber(value)}</td>`).join('')}
+            </tr>
+          `).join('')}
+        </tbody>
+      `;
+
+      tableTitle.textContent = `${group.title} Detay Tablosu`;
+      tableDescription.textContent = `${group.series.length} alt başlık, seçilen tarih aralığındaki ${visibleDates.length} dönem verisiyle listeleniyor.`;
+    }
+
+    function renderInsights(group) {
+      const indexSeries = getIndexSeries(group);
+      const latest = getLatest(indexSeries.values);
+      const previous = getPrevious(indexSeries.values);
+      const latestSeriesValues = group.series.map((item) => ({ name: item.name, value: getLatest(item.values) }));
+      const highest = [...latestSeriesValues].sort((a, b) => b.value - a.value)[0];
+      const lowest = [...latestSeriesValues].sort((a, b) => a.value - b.value)[0];
+      const average = latestSeriesValues.reduce((sum, item) => sum + item.value, 0) / latestSeriesValues.length;
+
+      insightTitle.textContent = `${group.title} Özeti`;
+      insightIntro.textContent = 'Ana başlığın altındaki serilerden son dönem için öne çıkan metrikler.';
+      insightList.innerHTML = `
+        <div class="insight-item">
+          <span class="insight-label">Ana Endeks</span>
+          <span class="insight-value">${formatNumber(latest)}</span>
+          <span class="insight-note">${formatSigned(latest - previous)} puan aylık değişim</span>
+        </div>
+        <div class="insight-item">
+          <span class="insight-label">En Yüksek Alt Başlık</span>
+          <span class="insight-value">${formatNumber(highest.value)}</span>
+          <span class="insight-note">${highest.name}</span>
+        </div>
+        <div class="insight-item">
+          <span class="insight-label">En Düşük Alt Başlık</span>
+          <span class="insight-value">${formatNumber(lowest.value)}</span>
+          <span class="insight-note">${lowest.name}</span>
+        </div>
+        <div class="insight-item">
+          <span class="insight-label">Alt Seri Ortalaması</span>
+          <span class="insight-value">${formatNumber(average)}</span>
+          <span class="insight-note">${group.series.length} seri üzerinden hesaplandı</span>
+        </div>
+      `;
+    }
+
     function drawChart() {
       clampRange();
+
+      const group = getGroup();
+      const visibleSeries = getVisibleSeries(group);
       const start = Number(startRange.value);
       const end = Number(endRange.value);
+      const xLabels = dataset.dates.slice(start, end + 1);
+      const slicedSeries = visibleSeries.map((series) => ({
+        name: series.name,
+        values: series.values.slice(start, end + 1)
+      }));
 
-      const xLabels = labels.slice(start, end + 1);
-      const current = {
-        red: series.red.slice(start, end + 1),
-        blue: series.blue.slice(start, end + 1),
-        olive: series.olive.slice(start, end + 1)
-      };
+      chartTitle.textContent = group.title;
+      renderLegend(group);
+      renderTable(group, start, end);
+      renderInsights(group);
 
-      const W = 1180;
-      const H = 380;
-      const left = 16;
+      const allValues = slicedSeries.flatMap((series) => series.values);
+      const axis = getNiceAxis(allValues, group.title);
+      const minValue = axis.min;
+      const maxValue = axis.max;
+      const left = 68;
       const right = 1146;
       const top = 22;
-      const bottom = 290;
+      const bottom = 300;
       const plotW = right - left;
       const plotH = bottom - top;
-      const allValues = [...current.red, ...current.blue, ...current.olive];
-      const min = Math.min(...allValues) - 30;
-      const max = Math.max(...allValues) + 30;
       const stepX = xLabels.length > 1 ? plotW / (xLabels.length - 1) : plotW;
 
       chartSvg.innerHTML = '';
 
-      for (let i = 0; i < 4; i++) {
-        const y = top + (plotH / 4) * i;
-        chartSvg.appendChild(n('line', {
+      axis.ticks.forEach((tick) => {
+        const y = top + plotH - ((tick - minValue) / (maxValue - minValue)) * plotH;
+        chartSvg.appendChild(svgNode('line', {
           x1: left,
           y1: y,
           x2: right,
@@ -1014,9 +1491,18 @@
           stroke: '#edf0f5',
           'stroke-width': '1'
         }));
-      }
 
-      chartSvg.appendChild(n('line', {
+        chartSvg.appendChild(svgNode('text', {
+          x: left - 12,
+          y: y + 4,
+          'text-anchor': 'end',
+          fill: '#9aa7b8',
+          'font-size': '11',
+          'font-weight': '800'
+        }, formatNumber(tick)));
+      });
+
+      chartSvg.appendChild(svgNode('line', {
         x1: left,
         y1: bottom,
         x2: right,
@@ -1025,49 +1511,48 @@
         'stroke-width': '1.2'
       }));
 
-      function yPos(v) {
-        return top + plotH - ((v - min) / (max - min)) * plotH;
+      function yPos(value) {
+        return top + plotH - ((value - minValue) / (maxValue - minValue)) * plotH;
       }
 
       function pathFor(values) {
-        return values.map((v, i) => {
-          const x = left + stepX * i;
-          const y = yPos(v);
-          return `${i === 0 ? 'M' : 'L'} ${x.toFixed(2)} ${y.toFixed(2)}`;
+        return values.map((value, index) => {
+          const x = left + stepX * index;
+          const y = yPos(value);
+          return `${index === 0 ? 'M' : 'L'} ${x.toFixed(2)} ${y.toFixed(2)}`;
         }).join(' ');
       }
 
-      chartSvg.appendChild(n('path', {
-        d: pathFor(current.olive),
-        fill: 'none',
-        stroke: '#b7b28a',
-        'stroke-width': '4',
-        'stroke-linecap': 'round',
-        'stroke-dasharray': '8 5'
-      }));
+      slicedSeries.forEach((series, index) => {
+        const color = getSeriesColor(group, series.name);
+        chartSvg.appendChild(svgNode('path', {
+          d: pathFor(series.values),
+          fill: 'none',
+          stroke: color,
+          'stroke-width': series.name === 'Endeks' ? '4' : '2.6',
+          'stroke-linecap': 'round',
+          'stroke-linejoin': 'round',
+          opacity: series.name === 'Endeks' ? '1' : '0.9'
+        }));
 
-      chartSvg.appendChild(n('path', {
-        d: pathFor(current.red),
-        fill: 'none',
-        stroke: '#c70612',
-        'stroke-width': '4',
-        'stroke-linecap': 'round'
-      }));
+        series.values.forEach((value, pointIndex) => {
+          chartSvg.appendChild(svgNode('circle', {
+            cx: (left + stepX * pointIndex).toFixed(2),
+            cy: yPos(value).toFixed(2),
+            r: series.name === 'Endeks' ? '4.2' : '3.2',
+            fill: color,
+            stroke: '#fff',
+            'stroke-width': '2'
+          }));
+        });
+      });
 
-      chartSvg.appendChild(n('path', {
-        d: pathFor(current.blue),
-        fill: 'none',
-        stroke: '#0d6d9a',
-        'stroke-width': '4',
-        'stroke-linecap': 'round'
-      }));
-
-      xLabels.forEach((label, i) => {
-        const x = left + stepX * i;
-        chartSvg.appendChild(n('text', {
+      xLabels.forEach((label, index) => {
+        const x = left + stepX * index;
+        chartSvg.appendChild(svgNode('text', {
           x,
-          y: 312,
-          'text-anchor': i === 0 ? 'start' : i === xLabels.length - 1 ? 'end' : 'middle',
+          y: 326,
+          'text-anchor': index === 0 ? 'start' : index === xLabels.length - 1 ? 'end' : 'middle',
           fill: '#a0acbd',
           'font-size': '11',
           'font-weight': '900'
@@ -1083,18 +1568,47 @@
       const leftNote = document.createElement('div');
       leftNote.className = 'range-note';
       leftNote.style.left = `${startPct}%`;
-      leftNote.textContent = labels[start].replace(' ', ' ').toUpperCase();
+      leftNote.textContent = dataset.dates[start].toUpperCase();
+
       const rightNote = document.createElement('div');
       rightNote.className = 'range-note';
       rightNote.style.left = `${endPct}%`;
-      rightNote.textContent = labels[end].replace(' ', ' ').toUpperCase();
+      rightNote.textContent = dataset.dates[end].toUpperCase();
+
       rangeNotes.appendChild(leftNote);
       rangeNotes.appendChild(rightNote);
     }
 
+    function renderAll() {
+      renderSidebar();
+      renderCards();
+      renderHeader();
+      drawChart();
+      requestAnimationFrame(notifyEmbedHeight);
+    }
+
     startRange.addEventListener('input', drawChart);
     endRange.addEventListener('input', drawChart);
-    drawChart();
+
+    focusAllBtn.addEventListener('click', () => {
+      state.focusMode = 'all';
+      focusAllBtn.classList.add('active');
+      focusIndexBtn.classList.remove('active');
+      drawChart();
+    });
+
+    focusIndexBtn.addEventListener('click', () => {
+      state.focusMode = 'index';
+      focusIndexBtn.classList.add('active');
+      focusAllBtn.classList.remove('active');
+      drawChart();
+    });
+
+    renderAll();
   </script>
 </body>
 </html>
+
+
+
+

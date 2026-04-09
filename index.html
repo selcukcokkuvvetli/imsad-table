@@ -155,20 +155,20 @@
         }
 
         .embedded-shell {
-            padding: 24px 0 40px;
+            padding: 14px 0 22px;
         }
 
         .embedded-frame-wrap {
-            border-radius: 24px;
+            border-radius: 18px;
             overflow: hidden;
             background: #ffffff;
-            box-shadow: 0 18px 40px rgba(18, 24, 32, 0.08);
+            box-shadow: 0 12px 28px rgba(18, 24, 32, 0.06);
         }
 
         .embedded-frame {
             display: block;
             width: 100%;
-            min-height: 1200px;
+            min-height: 760px;
             border: 0;
             background: #ffffff;
         }
@@ -179,7 +179,7 @@
             }
 
             .embedded-shell {
-                padding: 16px 0 24px;
+                padding: 10px 0 18px;
             }
         }
     </style>
@@ -410,6 +410,14 @@
 
         (function () {
             var frame = document.getElementById("tableFrame");
+            var lastHeight = 0;
+
+            function getContentHeight(doc) {
+                var app = doc.querySelector(".app");
+                var appHeight = app ? Math.ceil(app.getBoundingClientRect().height) : 0;
+                var bodyHeight = doc.body ? Math.ceil(doc.body.scrollHeight) : 0;
+                return Math.max(appHeight, bodyHeight);
+            }
 
             function resizeFrame() {
                 if (!frame || !frame.contentWindow) {
@@ -421,22 +429,36 @@
                     return;
                 }
 
-                var height = Math.max(
-                    doc.body ? doc.body.scrollHeight : 0,
-                    doc.documentElement.scrollHeight
-                );
+                var height = getContentHeight(doc);
+                if (!height || Math.abs(height - lastHeight) < 2) {
+                    return;
+                }
 
+                lastHeight = height;
                 frame.style.height = height + "px";
             }
 
             if (frame) {
                 frame.addEventListener("load", function () {
                     resizeFrame();
-                    frame.contentWindow.addEventListener("resize", resizeFrame);
-                    window.setTimeout(resizeFrame, 150);
+                    window.setTimeout(resizeFrame, 120);
+                    window.setTimeout(resizeFrame, 320);
                 });
 
                 window.addEventListener("resize", resizeFrame);
+                window.addEventListener("message", function (event) {
+                    if (event.source !== frame.contentWindow || !event.data || event.data.type !== "imsad-table-height") {
+                        return;
+                    }
+
+                    var height = Number(event.data.height);
+                    if (!height || Math.abs(height - lastHeight) < 2) {
+                        return;
+                    }
+
+                    lastHeight = height;
+                    frame.style.height = height + "px";
+                });
             }
         })();
     </script>
