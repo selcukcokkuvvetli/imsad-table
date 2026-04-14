@@ -160,20 +160,22 @@
         }
 
         .endeks-page-layout {
-            display: grid;
-            grid-template-columns: minmax(128px, 180px) minmax(0, 1170px) minmax(128px, 180px);
-            gap: 28px;
-            align-items: start;
-            justify-content: center;
-            width: min(100%, 1720px);
+            display: block;
+            width: 100%;
+            max-width: 1170px;
             margin: 0 auto;
-            padding: 0 18px;
+            padding: 0 15px;
         }
 
         .ad-rail {
-            display: grid;
-            gap: 58px;
-            padding-top: 44px;
+            display: none;
+        }
+
+        .endeks-page-layout > .container {
+            width: 100%;
+            max-width: 1170px !important;
+            padding-right: 0;
+            padding-left: 0;
         }
 
         .ad-slot {
@@ -203,6 +205,7 @@
             overflow: hidden;
             background: #ffffff;
             box-shadow: 0 12px 28px rgba(18, 24, 32, 0.06);
+            width: 100%;
         }
 
         .embedded-frame {
@@ -234,11 +237,7 @@
 
         @media (max-width: 1500px) {
             .endeks-page-layout {
-                grid-template-columns: minmax(0, 1170px);
-            }
-
-            .ad-rail {
-                display: none;
+                max-width: 1170px;
             }
         }
     </style>
@@ -484,7 +483,7 @@
             function getContentHeight(doc) {
                 var app = doc.querySelector(".app");
                 var appHeight = app ? Math.ceil(app.getBoundingClientRect().height) : 0;
-                var bodyHeight = doc.body ? Math.ceil(doc.body.scrollHeight) : 0;
+                var bodyHeight = doc.body ? Math.ceil(doc.body.offsetHeight) : 0;
                 return Math.max(appHeight, bodyHeight);
             }
 
