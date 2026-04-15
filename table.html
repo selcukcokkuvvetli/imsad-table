@@ -836,7 +836,8 @@
       .detail-table {
         width: 100%;
         min-width: 840px;
-        border-collapse: collapse;
+        border-collapse: separate;
+        border-spacing: 0;
         background: #fff;
       }
 
@@ -859,10 +860,6 @@
       .detail-table thead th:first-child,
       .detail-table tbody td:first-child {
         text-align: left;
-        position: sticky;
-        left: 0;
-        z-index: 1;
-        background: inherit;
       }
 
       .detail-table tbody tr:nth-child(odd) td {
@@ -884,9 +881,9 @@
       }
 
       .detail-table tbody td:first-child {
-        min-width: 300px;
         color: #425166;
         font-weight: 800;
+        min-width: 360px;
       }
 
       .detail-table tbody tr:last-child td {
