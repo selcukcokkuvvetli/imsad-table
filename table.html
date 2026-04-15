@@ -511,26 +511,12 @@
         z-index: 1;
       }
 
-      .index-card-firework-canvas {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 0;
-        opacity: 0;
-        transition: opacity 140ms ease;
-      }
-
       .index-card:hover {
         transform: translateY(-3px);
         background: #b13032;
         color: #fff;
         box-shadow: 0 16px 32px rgba(177, 48, 50, 0.22);
-      }
-
-      .index-card:hover .index-card-firework-canvas {
-        opacity: 1;
+        animation: cardCelebrate 1.25s ease both;
       }
 
       .index-card:hover small,
@@ -791,6 +777,36 @@
         }
         to {
           opacity: 1;
+        }
+      }
+
+      @keyframes cardCelebrate {
+        0% {
+          transform: translateY(-3px) rotate(0deg) scale(1);
+        }
+        12% {
+          transform: translateY(-4px) rotate(-1.2deg) scale(1.01);
+        }
+        24% {
+          transform: translateY(-3px) rotate(1deg) scale(1.01);
+        }
+        36% {
+          transform: translateY(-4px) rotate(-0.8deg) scale(1.015);
+        }
+        48% {
+          transform: translateY(-3px) rotate(0.6deg) scale(1.01);
+        }
+        60% {
+          transform: translateY(-4px) rotate(-0.65deg) scale(1.013);
+        }
+        72% {
+          transform: translateY(-3px) rotate(0.45deg) scale(1.008);
+        }
+        84% {
+          transform: translateY(-4px) rotate(-0.3deg) scale(1.005);
+        }
+        100% {
+          transform: translateY(-3px) rotate(0deg) scale(1);
         }
       }
 
@@ -1610,219 +1626,6 @@
         return `${sign}${formatNumber(value)}`;
       }
 
-      function randomFireworkColor() {
-        const colors = [
-          "#ff4d6d",
-          "#ffd166",
-          "#06d6a0",
-          "#4cc9f0",
-          "#c77dff",
-          "#f72585",
-          "#ffffff",
-          "#f97316",
-        ];
-        return colors[Math.floor(Math.random() * colors.length)];
-      }
-
-      function hexToRgba(hex, alpha) {
-        const value = hex.replace("#", "");
-        const bigint = Number.parseInt(value, 16);
-        const r = (bigint >> 16) & 255;
-        const g = (bigint >> 8) & 255;
-        const b = bigint & 255;
-        return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-      }
-
-      function ensureFireworkCanvas(card) {
-        let canvas = card.querySelector(".index-card-firework-canvas");
-
-        if (!canvas) {
-          canvas = document.createElement("canvas");
-          canvas.className = "index-card-firework-canvas";
-          card.appendChild(canvas);
-        }
-
-        const ratio = Math.max(window.devicePixelRatio || 1, 1);
-        const width = Math.max(1, Math.round(card.clientWidth * ratio));
-        const height = Math.max(1, Math.round(card.clientHeight * ratio));
-
-        if (canvas.width !== width || canvas.height !== height) {
-          canvas.width = width;
-          canvas.height = height;
-        }
-
-        canvas.style.width = `${card.clientWidth}px`;
-        canvas.style.height = `${card.clientHeight}px`;
-        return { canvas, ratio };
-      }
-
-      function triggerCardFirework(card) {
-        const now = Date.now();
-        const lastBurst = Number(card.dataset.fireworkTs || 0);
-
-        if (now - lastBurst < 420) {
-          return;
-        }
-
-        card.dataset.fireworkTs = String(now);
-        const { canvas, ratio } = ensureFireworkCanvas(card);
-        const ctx = canvas.getContext("2d");
-        const width = canvas.width / ratio;
-        const height = canvas.height / ratio;
-        const rockets = [];
-        const particles = [];
-
-        if (canvas._rafId) {
-          window.cancelAnimationFrame(canvas._rafId);
-        }
-
-        ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-        ctx.clearRect(0, 0, width, height);
-
-        function createRocket(offsetX = 0) {
-          const targetX = width * (0.72 + Math.random() * 0.16) + offsetX;
-          const targetY = height * (0.18 + Math.random() * 0.16);
-          const startX = width * (0.48 + Math.random() * 0.14);
-          const startY = height + 16;
-          const color = randomFireworkColor();
-          const speed = 4.2 + Math.random() * 1.6;
-          const angle = Math.atan2(targetY - startY, targetX - startX);
-
-          rockets.push({
-            x: startX,
-            y: startY,
-            targetX,
-            targetY,
-            vx: Math.cos(angle) * speed,
-            vy: Math.sin(angle) * speed,
-            color,
-            trail: [],
-            done: false,
-          });
-        }
-
-        function explode(x, y, baseColor) {
-          const count = 52 + Math.floor(Math.random() * 26);
-
-          for (let index = 0; index < count; index += 1) {
-            const angle = (Math.PI * 2 * index) / count + Math.random() * 0.18;
-            const speed = 1.3 + Math.random() * 3.8;
-            particles.push({
-              x,
-              y,
-              vx: Math.cos(angle) * speed,
-              vy: Math.sin(angle) * speed,
-              color: Math.random() > 0.28 ? baseColor : randomFireworkColor(),
-              life: 38 + Math.random() * 28,
-              maxLife: 66,
-              size: 1.6 + Math.random() * 2.8,
-              trail: [],
-            });
-          }
-        }
-
-        createRocket(0);
-        if (Math.random() > 0.55) {
-          createRocket((Math.random() - 0.5) * 18);
-        }
-
-        function drawRocket(rocket) {
-          ctx.beginPath();
-          for (let index = 0; index < rocket.trail.length - 1; index += 1) {
-            const p1 = rocket.trail[index];
-            const p2 = rocket.trail[index + 1];
-            ctx.strokeStyle = `rgba(255,255,255,${index / rocket.trail.length})`;
-            ctx.lineWidth = 1.8;
-            ctx.moveTo(p1.x, p1.y);
-            ctx.lineTo(p2.x, p2.y);
-          }
-          ctx.stroke();
-
-          ctx.beginPath();
-          ctx.fillStyle = rocket.color;
-          ctx.arc(rocket.x, rocket.y, 2.4, 0, Math.PI * 2);
-          ctx.fill();
-        }
-
-        function drawParticle(particle) {
-          const alpha = Math.max(particle.life / particle.maxLife, 0);
-
-          for (let index = 0; index < particle.trail.length - 1; index += 1) {
-            const p1 = particle.trail[index];
-            const p2 = particle.trail[index + 1];
-            ctx.beginPath();
-            ctx.strokeStyle = hexToRgba(
-              particle.color,
-              alpha * (index / particle.trail.length),
-            );
-            ctx.lineWidth = particle.size * 0.7;
-            ctx.moveTo(p1.x, p1.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.stroke();
-          }
-
-          ctx.beginPath();
-          ctx.fillStyle = hexToRgba(particle.color, alpha);
-          ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-          ctx.fill();
-        }
-
-        function frame() {
-          ctx.clearRect(0, 0, width, height);
-
-          for (let index = rockets.length - 1; index >= 0; index -= 1) {
-            const rocket = rockets[index];
-            rocket.trail.push({ x: rocket.x, y: rocket.y });
-            if (rocket.trail.length > 8) {
-              rocket.trail.shift();
-            }
-
-            rocket.x += rocket.vx;
-            rocket.y += rocket.vy;
-            rocket.vy += 0.012;
-
-            drawRocket(rocket);
-
-            const dx = rocket.targetX - rocket.x;
-            const dy = rocket.targetY - rocket.y;
-            if ((Math.abs(dx) < 8 && Math.abs(dy) < 8) || rocket.vy >= 0) {
-              explode(rocket.x, rocket.y, rocket.color);
-              rockets.splice(index, 1);
-            }
-          }
-
-          for (let index = particles.length - 1; index >= 0; index -= 1) {
-            const particle = particles[index];
-            particle.trail.push({ x: particle.x, y: particle.y });
-            if (particle.trail.length > 5) {
-              particle.trail.shift();
-            }
-
-            particle.vx *= 0.986;
-            particle.vy *= 0.986;
-            particle.vy += 0.035;
-            particle.x += particle.vx;
-            particle.y += particle.vy;
-            particle.life -= 1;
-
-            drawParticle(particle);
-
-            if (particle.life <= 0) {
-              particles.splice(index, 1);
-            }
-          }
-
-          if (rockets.length || particles.length) {
-            canvas._rafId = window.requestAnimationFrame(frame);
-          } else {
-            ctx.clearRect(0, 0, width, height);
-            canvas._rafId = 0;
-          }
-        }
-
-        frame();
-      }
-
       function getGroup() {
         return dataset.groups[state.groupIndex];
       }
@@ -2136,7 +1939,6 @@
           });
 
           card.addEventListener("mouseenter", () => {
-            triggerCardFirework(card);
             selectGroup(card.dataset.index);
           });
         });
