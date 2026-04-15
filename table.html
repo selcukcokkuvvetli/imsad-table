@@ -508,8 +508,14 @@
 
       .index-card:hover {
         transform: translateY(-3px);
-        background: #f8f9fc;
-        box-shadow: 0 16px 32px rgba(20, 27, 36, 0.12);
+        background: #b13032;
+        color: #fff;
+        box-shadow: 0 16px 32px rgba(177, 48, 50, 0.22);
+      }
+
+      .index-card:hover small,
+      .index-card:hover .material-symbols-outlined {
+        color: rgba(255, 255, 255, 0.82);
       }
 
       .index-card:active {
@@ -592,8 +598,14 @@
 
       .index-card.active-card {
         transform: translateY(-3px);
-        box-shadow: 0 16px 32px rgba(20, 27, 36, 0.12);
-        background: #f5f7fb;
+        box-shadow: 0 16px 32px rgba(177, 48, 50, 0.22);
+        background: #b13032;
+        color: #fff;
+      }
+
+      .index-card.active-card small,
+      .index-card.active-card .material-symbols-outlined {
+        color: rgba(255, 255, 255, 0.82);
       }
 
       .card-value {
@@ -717,6 +729,49 @@
         height: 100%;
         display: block;
         overflow: visible;
+      }
+
+      .chart-svg.is-animating .chart-line {
+        animation: chartLineDraw 780ms ease both;
+      }
+
+      .chart-svg.is-animating .chart-point {
+        animation: chartPointIn 460ms ease both;
+      }
+
+      .chart-svg.is-animating .chart-axis-label {
+        animation: chartFadeIn 420ms ease both;
+      }
+
+      @keyframes chartLineDraw {
+        from {
+          opacity: 0;
+          stroke-dashoffset: var(--line-length);
+        }
+        to {
+          opacity: 1;
+          stroke-dashoffset: 0;
+        }
+      }
+
+      @keyframes chartPointIn {
+        from {
+          opacity: 0;
+          transform: scale(0.65);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      @keyframes chartFadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
       }
 
       .timeline {
@@ -2009,6 +2064,7 @@
         const plotH = bottom - top;
         const stepX = xLabels.length > 1 ? plotW / (xLabels.length - 1) : plotW;
 
+        chartSvg.classList.remove("is-animating");
         chartSvg.innerHTML = "";
 
         axis.ticks.forEach((tick) => {
@@ -2022,6 +2078,7 @@
               y2: y,
               stroke: "#edf0f5",
               "stroke-width": "1",
+              class: "chart-axis-label",
             }),
           );
 
@@ -2035,6 +2092,7 @@
                 fill: "#9aa7b8",
                 "font-size": "11",
                 "font-weight": "800",
+                class: "chart-axis-label",
               },
               formatNumber(tick),
             ),
@@ -2049,6 +2107,7 @@
             y2: bottom,
             stroke: "#dfe5ee",
             "stroke-width": "1.2",
+            class: "chart-axis-label",
           }),
         );
 
@@ -2070,17 +2129,22 @@
 
         slicedSeries.forEach((series, index) => {
           const color = getSeriesColor(group, series.name);
-          chartSvg.appendChild(
-            svgNode("path", {
-              d: pathFor(series.values),
-              fill: "none",
-              stroke: color,
-              "stroke-width": series.name === "Endeks" ? "4" : "2.6",
-              "stroke-linecap": "round",
-              "stroke-linejoin": "round",
-              opacity: series.name === "Endeks" ? "1" : "0.9",
-            }),
-          );
+          const linePath = svgNode("path", {
+            d: pathFor(series.values),
+            fill: "none",
+            stroke: color,
+            "stroke-width": series.name === "Endeks" ? "4" : "2.6",
+            "stroke-linecap": "round",
+            "stroke-linejoin": "round",
+            opacity: series.name === "Endeks" ? "1" : "0.9",
+            class: "chart-line",
+          });
+          chartSvg.appendChild(linePath);
+
+          const lineLength = linePath.getTotalLength();
+          linePath.style.setProperty("--line-length", lineLength);
+          linePath.style.strokeDasharray = lineLength;
+          linePath.style.strokeDashoffset = lineLength;
 
           series.values.forEach((value, pointIndex) => {
             chartSvg.appendChild(
@@ -2091,6 +2155,8 @@
                 fill: color,
                 stroke: "#fff",
                 "stroke-width": "2",
+                class: "chart-point",
+                style: `animation-delay:${Math.min(pointIndex * 18, 160)}ms`,
               }),
             );
           });
@@ -2113,10 +2179,15 @@
                 fill: "#a0acbd",
                 "font-size": "11",
                 "font-weight": "900",
+                class: "chart-axis-label",
               },
               label.toUpperCase(),
             ),
           );
+        });
+
+        requestAnimationFrame(() => {
+          chartSvg.classList.add("is-animating");
         });
 
         const startPct = (start / Number(startRange.max)) * 100;
