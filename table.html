@@ -1200,7 +1200,7 @@
       }
 
       .disclaimer-block h3 {
-        margin: 0 0 12px;
+        margin: 28px 0 12px;
         font-size: 18px;
         font-weight: 900;
         letter-spacing: -0.02em;
@@ -1431,6 +1431,22 @@
 
         <section class="surface-card end-notes">
           <div class="disclaimer-block">
+            <div class="archive-note">
+              <p id="historyText">
+                2015-2025 yılı geçmiş dönem endekslerine ulaşmak için
+                <a
+                  id="historyLink"
+                  href="https://imsad.org/endeks"
+                  target="_blank"
+                  rel="noopener"
+                  >tıklayınız.</a
+                >
+              </p>
+              <p>
+                Endeks raporlarının hazırlanmasında KPMG Yönetim Danışmanlığı
+                A.Ş. tarafından danışmanlık hizmeti sunulmuştur.
+              </p>
+            </div>
             <h3>Sorumluluk Reddi</h3>
             <ul>
               <li>
@@ -1458,22 +1474,6 @@
                 değildir.
               </li>
             </ul>
-            <div class="archive-note">
-              <p id="historyText">
-                2015-2025 yılı geçmiş dönem endekslerine ulaşmak için
-                <a
-                  id="historyLink"
-                  href="https://imsad.org/endeks"
-                  target="_blank"
-                  rel="noopener"
-                  >tıklayınız.</a
-                >
-              </p>
-              <p>
-                Endeks raporlarının hazırlanmasında KPMG Yönetim Danışmanlığı
-                A.Ş. tarafından danışmanlık hizmeti sunulmuştur.
-              </p>
-            </div>
           </div>
         </section>
       </main>
@@ -1574,7 +1574,7 @@
         sectionIndex: isTradeTitle(dataset.title) ? 0 : initialGroupIndex,
         groupIndex: initialGroupIndex,
         focusMode: "all",
-        hiddenSeries: new Set(),
+        hiddenSeries: getDefaultHiddenSeries(dataset.groups[initialGroupIndex]),
       };
 
       const heroTitle = document.getElementById("heroTitle");
@@ -1719,6 +1719,25 @@
         historyText.innerHTML = `${archive.text}<a id="historyLink" href="${archive.href}" target="_blank" rel="noopener">tıklayınız.</a>`;
       }
 
+      function getDefaultHiddenSeries(group) {
+        const primarySeriesKey = "endeks";
+        const hasPrimarySeries = group.series.some(
+          (item) => normalizeTitle(item.name) === primarySeriesKey,
+        );
+
+        if (!hasPrimarySeries) {
+          return new Set();
+        }
+
+        return new Set(
+          group.series
+            .filter(
+              (item) => normalizeTitle(item.name) !== primarySeriesKey,
+            )
+            .map((item) => item.name),
+        );
+      }
+
       function selectGroup(index) {
         const nextIndex = Number(index);
 
@@ -1728,7 +1747,7 @@
 
         state.sectionIndex = findSectionIndexByGroup(nextIndex);
         state.groupIndex = nextIndex;
-        state.hiddenSeries = new Set();
+        state.hiddenSeries = getDefaultHiddenSeries(dataset.groups[nextIndex]);
         state.focusMode = "all";
         focusAllBtn.classList.add("active");
         focusIndexBtn.classList.remove("active");
@@ -1745,7 +1764,9 @@
 
         state.sectionIndex = nextIndex;
         state.groupIndex = section.groupIndexes[0];
-        state.hiddenSeries = new Set();
+        state.hiddenSeries = getDefaultHiddenSeries(
+          dataset.groups[state.groupIndex],
+        );
         state.focusMode = "all";
         focusAllBtn.classList.add("active");
         focusIndexBtn.classList.remove("active");
