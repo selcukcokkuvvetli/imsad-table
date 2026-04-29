@@ -410,7 +410,7 @@
         color: #c61a1c;
         text-decoration: none;
         font-size: 15px;
-        font-weight: 900;
+        font-weight: 500;
         letter-spacing: -0.02em;
         text-transform: uppercase;
         line-height: 1.12;
@@ -1411,9 +1411,6 @@
             <span class="title-line">SANAYİ DIŞ TİCARET ENDEKSİ</span>
           </a>
         </div>
-        <div class="sidebar-footer">
-          <button class="export-btn" id="datasetMetaBtn">12 Dönem Veri</button>
-        </div>
       </aside>
 
       <main class="main">
@@ -1706,7 +1703,6 @@
       const insightTitle = document.getElementById("insightTitle");
       const insightIntro = document.getElementById("insightIntro");
       const insightList = document.getElementById("insightList");
-      const datasetMetaBtn = document.getElementById("datasetMetaBtn");
       const focusAllBtn = document.getElementById("focusAllBtn");
       const focusIndexBtn = document.getElementById("focusIndexBtn");
       const historyText = document.getElementById("historyText");
@@ -2104,7 +2100,6 @@
         statusLabel.textContent = group.title;
         statusValue.textContent = formatNumber(latest);
         statusNote.textContent = `${dataset.dates[dataset.dates.length - 2]} dönemine göre ${formatSigned(delta)} puan değişim.`;
-        datasetMetaBtn.textContent = `${dataset.dates.length} Dönem / ${group.series.length} Seri`;
       }
 
       function renderLegend(group) {
