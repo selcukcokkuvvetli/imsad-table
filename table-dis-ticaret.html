@@ -86,7 +86,7 @@
       }
 
       body.is-embedded .sidebar-head h2 {
-        font-size: 16px;
+        font-size: 14px;
       }
 
       body.is-embedded .sidebar-head p {
@@ -107,8 +107,10 @@
 
       body.is-embedded .side-link span:last-child {
         min-width: 0;
-        overflow-wrap: anywhere;
-        line-height: 1.25;
+        overflow-wrap: break-word;
+        word-break: normal;
+        line-height: 1.3;
+        hyphens: auto;
       }
 
       body.is-embedded .export-btn {
@@ -146,7 +148,11 @@
       }
 
       body.is-embedded .status-box .mini {
-        font-size: 9px;
+        font-size: 8px;
+        line-height: 1.2;
+        letter-spacing: 0.12em;
+        max-width: 176px;
+        text-wrap: balance;
       }
 
       body.is-embedded .status-box .value {
@@ -357,11 +363,17 @@
 
       .sidebar-head h2 {
         margin: 0;
-        font-size: 18px;
+        font-size: 15px;
         color: #c61a1c;
         font-weight: 900;
-        letter-spacing: -0.03em;
+        letter-spacing: -0.02em;
         text-transform: uppercase;
+        line-height: 1.12;
+      }
+
+      .sidebar-head h2 .title-line {
+        display: inline-block;
+        white-space: nowrap;
       }
 
       .sidebar-head p {
@@ -393,8 +405,10 @@
 
       .side-link span:last-child {
         min-width: 0;
-        overflow-wrap: anywhere;
-        line-height: 1.25;
+        overflow-wrap: break-word;
+        word-break: normal;
+        line-height: 1.32;
+        hyphens: auto;
       }
 
       .side-link.active {
@@ -454,6 +468,11 @@
         line-height: 1;
       }
 
+      .hero h1 .title-line {
+        display: inline-block;
+        white-space: nowrap;
+      }
+
       .hero .period {
         margin-top: 8px;
         display: inline-flex;
@@ -477,12 +496,15 @@
       }
 
       .status-box .mini {
-        font-size: 10px;
-        letter-spacing: 0.18em;
+        font-size: 9px;
+        letter-spacing: 0.13em;
         text-transform: uppercase;
         color: #6c778b;
         font-weight: 800;
         margin-bottom: 2px;
+        line-height: 1.2;
+        max-width: 220px;
+        text-wrap: balance;
       }
 
       .status-box .value {
@@ -559,6 +581,8 @@
         text-transform: uppercase;
         color: #90a0b4;
         letter-spacing: 0.08em;
+        line-height: 1.2;
+        text-wrap: balance;
       }
 
       .index-card strong {
@@ -1335,7 +1359,10 @@
     <div class="app">
       <aside class="sidebar">
         <div class="sidebar-head">
-          <h2>Türkiye İMSAD</h2>
+          <h2>
+            <span class="title-line">İNŞAAT MALZEMESİ</span><br />
+            <span class="title-line">SANAYİ DIŞ TİCARET ENDEKSİ</span>
+          </h2>
         </div>
         <nav class="side-nav" id="sideNav"></nav>
         <div class="sidebar-footer">
@@ -1502,7 +1529,7 @@
       </main>
     </div>
 
-    <script src="files/js/endeks-data.js"></script>
+    <script src="files/js/dis-ticaret-data.js"></script>
     <script>
       const searchParams = new URLSearchParams(window.location.search);
       const requestedHeroTitle = searchParams.get("heroTitle");
@@ -1593,7 +1620,11 @@
           });
         }
 
-        return { title: headers[0], dates, groups };
+        return {
+          title: headers[0],
+          dates,
+          groups: groups.filter((group) => group.series.length > 0),
+        };
       }
 
       const dataset = parseCsv(rawCsv);
@@ -1665,12 +1696,12 @@
         return requestedHeroTitle
           .split("|")
           .map((line) =>
-            line
+            `<span class="title-line">${line
               .trim()
               .split(/\s+/)
               .filter(Boolean)
               .map((word) => word.toLocaleUpperCase("tr-TR"))
-              .join("&nbsp; "),
+              .join("&nbsp; ")}</span>`,
           )
           .join("<br>");
       }
