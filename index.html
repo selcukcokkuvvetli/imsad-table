@@ -191,20 +191,19 @@
         }
 
         .ad-slot {
-            display: grid;
-            place-items: center;
-            min-height: 250px;
-            background: #fff;
-            border: 1px solid #f0f1f4;
-            box-shadow: 0 10px 24px rgba(18, 24, 32, 0.05);
-            overflow: hidden;
+            display: block;
+            background: transparent;
+            border: 0;
+            box-shadow: none;
+            overflow: visible;
+            line-height: 0;
         }
 
         .ad-slot img {
             display: block;
-            width: 100%;
-            height: 100%;
-            max-height: 250px;
+            width: auto;
+            height: auto;
+            max-width: 100%;
             object-fit: contain;
         }
 
@@ -254,21 +253,37 @@
         }
 
         @media (min-width: 1501px) {
+            .preview-shell .endeks-page-layout,
             .endeks-page-layout {
-                display: grid;
-                grid-template-columns: minmax(120px, 180px) minmax(0, 1170px) minmax(120px, 180px);
-                gap: 28px;
-                align-items: start;
-                justify-content: center;
-                width: min(100%, 1720px);
-                max-width: none;
-                padding: 0 18px;
+                display: block !important;
+                width: 100% !important;
+                max-width: 1170px !important;
+                margin: 0 auto !important;
+                padding: 0 15px !important;
             }
 
+            .preview-shell .ad-rail,
             .ad-rail {
-                display: grid;
+                display: grid !important;
+                position: absolute;
+                top: 176px;
+                right: max(24px, calc((100vw - 1170px) / 2 - 210px));
+                width: 180px;
                 gap: 58px;
-                padding-top: 44px;
+                padding-top: 0;
+                justify-items: stretch;
+                align-content: start;
+            }
+
+            .preview-shell .ad-rail .ad-slot,
+            .ad-rail .ad-slot {
+                width: 100%;
+            }
+
+            .preview-shell .ad-rail .ad-slot img,
+            .ad-rail .ad-slot img {
+                width: 100%;
+                max-width: 100%;
             }
         }
     </style>
@@ -399,12 +414,10 @@
                 </div>
             </div>
             </div>
-            <!--
             <aside class="ad-rail" aria-label="Sağ banner alanı">
                 <div class="ad-slot"><img src="files/img/doka_banner.gif" alt="Doka banner"></div>
                 <div class="ad-slot"><img src="files/img/solarex_aralik2024.jpg" alt="Solarex Aralık 2024 banner"></div>
             </aside>
-            -->
         </div>
     </main>
 

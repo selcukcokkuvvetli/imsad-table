@@ -1802,6 +1802,8 @@
       const insightList = document.getElementById("insightList");
       const historyText = document.getElementById("historyText");
       const printPdfBtn = document.getElementById("printPdfBtn");
+      const legendHoverText =
+        "Endeksin aşağı yönlü hareket etmesi düşüş eğilimini, yukarı yönlü hareket etmesi ise artış eğilimini ifade eder.";
 
       const maxRangeIndex = Math.max(dataset.dates.length - 1, 0);
       startRange.max = String(maxRangeIndex);
@@ -2208,7 +2210,7 @@
         legend.innerHTML = group.series
           .map(
             (item) => `
-        <span class="legend-item ${state.hiddenSeries.has(item.name) ? "is-hidden" : ""}" data-series-name="${item.name}">
+        <span class="legend-item ${state.hiddenSeries.has(item.name) ? "is-hidden" : ""}" data-series-name="${item.name}" title="${legendHoverText}">
           <span class="legend-dot" style="background:${getSeriesColor(group, item.name)}"></span>
           ${item.name}
         </span>
