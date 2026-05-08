@@ -1595,31 +1595,43 @@
                 sunulmaktadır.
               </p>
             </div>
-            <h3>Sorumluluk Reddi</h3>
+            <h3>Yasal Uyarı ve Sorumluluk Reddi</h3>
             <ul>
               <li>
-                Bu içerikte yer alan bilgiler yalnızca genel bilgilendirme
-                amacıyla sunulmuştur. Bilgilerin eksiksiz, hatasız veya güncel
-                olduğu konusunda herhangi bir garanti verilmemektedir.
-                Hesaplamalarda yaygın olarak kabul edilen yöntem ve varsayımlar
-                kullanılmış olmakla birlikte, farklı veri kaynakları ve
-                metodolojiler kullanıldığında farklı sonuçlar elde edilebilir.
-                Veriler güvenilir ve bilimsel çalışmalara dayalı kaynaklardan
+                <strong>1. Genel Bilgilendirme ve Risk Beyanı</strong><br />
+                Bu web sitesinde yer alan tüm içerikler, hesaplama araçları,
+                veriler ve tüm bilgiler yalnızca genel bilgilendirme amacıyla
+                sunulmuştur Bilgilerin eksiksiz, hatasız veya güncel olduğu
+                konusunda herhangi bir garanti verilmemektedir. Hesaplamalarda
+                yaygın olarak kabul edilen yöntem ve varsayımlar kullanılmış
+                olmakla birlikte, farklı veri kaynakları ve metodolojiler
+                kullanıldığında farklı sonuçlar elde edilebilir. Veriler
+                güvenilir ve bilimsel çalışmalara dayalı kaynaklardan
                 derlenmiş olsa da hesaplanan değişkenlerin doğruluğu ve
                 kesinliği taahhüt edilmemektedir. Teknolojik, metodolojik veya
-                matematiksel tercihlerden kaynaklanabilecek hata, eksiklik veya
-                farklılıklardan Türkiye İMSAD sorumlu tutulamaz.
+                matematiksel tercihlerden, yazılım hataları, veri aktarım
+                sorunları ve bu sayılanlarla sınırlı olmamak şartıyla başkaca
+                sebeplerden kaynaklanabilecek hata, eksiklik veya
+                farklılıklardan Türkiye İMSAD sorumlu tutulamaz. Türkiye
+                İMSAD, web sitesinde yer alan içerikleri önceden bildirimde
+                bulunmaksızın değiştirme, güncelleme veya kaldırma hakkını
+                saklı tutar. Web sitesini ziyaret eden ve içerikleri kullanan
+                herkes, işbu yasal uyarı ve sorumluluk reddini okumuş, anlamış
+                ve kabul etmiş sayılır.
               </li>
               <li>
-                Yapılan hesaplamalar sonucunda elde edilen veriler herhangi bir
-                yatırım aracına yönelik alım veya satım tavsiyesi ya da getiri
-                garantisi niteliği taşımamaktadır. Bu bilgilere dayanılarak
-                alınacak yatırım kararlarının beklentilerinizle örtüşeceği
-                garanti edilmez. Verilerin kullanımından, yorumlanmasından veya
-                olası hata ve eksikliklerden kaynaklanabilecek; yatırımcıların
-                ya da üçüncü kişilerin doğrudan veya dolaylı olarak
-                uğrayabileceği zararlardan Türkiye İMSAD hiçbir şekilde sorumlu
-                değildir.
+                <strong>2. Veri Hassasiyeti ve Metodoloji</strong><br />
+                Bu web sitesinde yer alan tüm içerikler, hesaplama araçları,
+                veriler ve tüm bilgiler herhangi bir yatırım aracına yönelik
+                alım veya satım tavsiyesi ya da getiri garantisi niteliği
+                taşımamaktadır. Paylaşılan bilgiler hiçbir koşulda yatırım
+                danışmanlığı, hukuki tavsiye veya finansal yönlendirme teşkil
+                etmez. Bu bilgilere dayanılarak alınacak yatırım kararlarının
+                beklentilerinizle örtüşeceği garanti edilmez. Verilerin
+                kullanımından, yorumlanmasından veya olası hata ve
+                eksikliklerden kaynaklanabilecek; yatırımcıların ya da üçüncü
+                kişilerin doğrudan veya dolaylı olarak uğrayabileceği her
+                türlü zarardan Türkiye İMSAD hiçbir şekilde sorumlu değildir.
               </li>
             </ul>
           </div>
@@ -2463,6 +2475,7 @@
         }
 
         const originalLabel = printPdfBtn.textContent;
+        let legalExportSection = null;
         printPdfBtn.disabled = true;
         printPdfBtn.textContent = "Hazırlanıyor...";
 
@@ -2585,6 +2598,48 @@
             currentY = margin + Math.min(maxSectionHeight, imageHeight) + 12;
           }
 
+          function createLegalExportSection() {
+            const disclaimerBlock = document.querySelector(
+              ".end-notes .disclaimer-block",
+            );
+
+            if (!disclaimerBlock) {
+              return null;
+            }
+
+            const archiveNotes = disclaimerBlock.querySelectorAll(".archive-note");
+            const kpmgNote = archiveNotes[1];
+            const legalTitle = disclaimerBlock.querySelector("h3");
+            const legalList = disclaimerBlock.querySelector("ul");
+
+            const section = document.createElement("section");
+            section.className = "surface-card pdf-legal-export";
+            section.style.width = "1180px";
+            section.style.maxWidth = "1180px";
+            section.style.margin = "0 auto";
+            section.style.background = "#ffffff";
+            section.style.boxSizing = "border-box";
+
+            const wrapper = document.createElement("div");
+            wrapper.className = "disclaimer-block";
+
+            if (kpmgNote) {
+              wrapper.appendChild(kpmgNote.cloneNode(true));
+            }
+
+            if (legalTitle) {
+              wrapper.appendChild(legalTitle.cloneNode(true));
+            }
+
+            if (legalList) {
+              wrapper.appendChild(legalList.cloneNode(true));
+            }
+
+            section.appendChild(wrapper);
+            document.body.appendChild(section);
+            return section;
+          }
+
           const heroCanvas = await captureElement(document.querySelector(".hero"));
           const chartCanvas = await captureElement(
             document.getElementById("chartSection"),
@@ -2595,16 +2650,26 @@
           const insightCanvas = await captureElement(
             document.getElementById("insightSection"),
           );
+          legalExportSection = createLegalExportSection();
+          const legalCanvas = legalExportSection
+            ? await captureElement(legalExportSection)
+            : null;
 
           addCanvas(heroCanvas);
           addCanvas(chartCanvas);
           addCanvas(detailCanvas, { newPage: true });
           addCanvas(insightCanvas, { newPage: true });
+          if (legalCanvas) {
+            addCanvas(legalCanvas, { newPage: true });
+          }
 
           const fileNameBase =
             slugifyFileName(chartTitle.textContent) || "grafik-raporu";
           pdf.save(`${fileNameBase}.pdf`);
         } finally {
+          if (legalExportSection) {
+            legalExportSection.remove();
+          }
           document.body.classList.remove("is-exporting-pdf");
           printPdfBtn.disabled = false;
           printPdfBtn.textContent = originalLabel;
