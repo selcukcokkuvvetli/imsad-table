@@ -149,6 +149,7 @@
         font-size: clamp(24px, 2.4vw, 34px);
         letter-spacing: -0.025em;
         line-height: 1;
+        white-space: nowrap;
       }
 
       body.is-embedded .hero .period {
@@ -536,10 +537,6 @@
         letter-spacing: -0.025em;
         text-transform: uppercase;
         line-height: 1;
-      }
-
-      .hero h1 .title-line {
-        display: inline-block;
         white-space: nowrap;
       }
 
@@ -1417,8 +1414,7 @@
         <section class="hero">
           <div>
             <h1 id="heroTitle">
-              İNŞAAT&nbsp; MALZEMESİ&nbsp; SANAYİ<br />
-              ENDEKSLERİ
+              İNŞAAT&nbsp; MALZEMESİ&nbsp; SANAYİ&nbsp; DIŞ&nbsp; TİCARET&nbsp; ENDEKSİ
             </h1>
             <div class="period">
               <span class="material-symbols-outlined" style="font-size: 18px"
@@ -1672,6 +1668,12 @@
       const insightList = document.getElementById("insightList");
       const historyText = document.getElementById("historyText");
 
+      const maxRangeIndex = Math.max(dataset.dates.length - 1, 0);
+      startRange.max = String(maxRangeIndex);
+      endRange.max = String(maxRangeIndex);
+      startRange.value = "0";
+      endRange.value = String(maxRangeIndex);
+
       function svgNode(name, attrs = {}, text = "") {
         const el = document.createElementNS(NS, name);
         Object.entries(attrs).forEach(([key, value]) =>
@@ -1697,20 +1699,15 @@
 
       function getHeroTitleHtml() {
         if (!requestedHeroTitle) {
-          return "İNŞAAT&nbsp; MALZEMESİ&nbsp; SANAYİ<br>ENDEKSLERİ";
+          return "İNŞAAT&nbsp; MALZEMESİ&nbsp; SANAYİ&nbsp; DIŞ&nbsp; TİCARET&nbsp; ENDEKSİ";
         }
 
         return requestedHeroTitle
-          .split("|")
-          .map((line) =>
-            `<span class="title-line">${line
-              .trim()
-              .split(/\s+/)
-              .filter(Boolean)
-              .map((word) => word.toLocaleUpperCase("tr-TR"))
-              .join("&nbsp; ")}</span>`,
-          )
-          .join("<br>");
+          .trim()
+          .split(/\s+/)
+          .filter(Boolean)
+          .map((word) => word.toLocaleUpperCase("tr-TR"))
+          .join("&nbsp; ");
       }
 
       function getGroup() {
@@ -1991,7 +1988,13 @@
       function clampRange() {
         let start = Number(startRange.value);
         let end = Number(endRange.value);
-        const minGap = 2;
+        const lastIndex = Math.max(dataset.dates.length - 1, 0);
+        const minGap = Math.min(2, lastIndex);
+
+        start = Math.max(0, Math.min(start, lastIndex));
+        end = Math.max(0, Math.min(end, lastIndex));
+        startRange.value = start;
+        endRange.value = end;
 
         if (end - start < minGap) {
           if (document.activeElement === startRange) {
@@ -2326,11 +2329,19 @@
         const leftNote = document.createElement("div");
         leftNote.className = "range-note";
         leftNote.style.left = `${startPct}%`;
+        if (start === 0) {
+          leftNote.style.left = "0";
+          leftNote.style.transform = "translateX(0)";
+        }
         leftNote.textContent = dataset.dates[start].toUpperCase();
 
         const rightNote = document.createElement("div");
         rightNote.className = "range-note";
         rightNote.style.left = `${endPct}%`;
+        if (end === dataset.dates.length - 1) {
+          rightNote.style.left = "100%";
+          rightNote.style.transform = "translateX(-100%)";
+        }
         rightNote.textContent = dataset.dates[end].toUpperCase();
 
         rangeNotes.appendChild(leftNote);
