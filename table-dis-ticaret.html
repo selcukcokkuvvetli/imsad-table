@@ -764,6 +764,89 @@
         text-transform: uppercase;
       }
 
+      .chart-actions {
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-end;
+        flex-shrink: 0;
+      }
+
+      .chart-export-btn {
+        width: auto;
+        min-width: 0;
+        height: 34px;
+        padding: 0 14px;
+        border-radius: 10px;
+        font-size: 12px;
+        box-shadow: 0 8px 18px rgba(199, 6, 18, 0.16);
+      }
+
+      body.is-exporting-pdf .card-grid,
+      body.is-exporting-pdf .timeline,
+      body.is-exporting-pdf .end-notes,
+      body.is-exporting-pdf .chart-actions {
+        display: none !important;
+      }
+
+      body.is-exporting-pdf .main {
+        width: 1180px !important;
+        max-width: none !important;
+        padding: 0 !important;
+        margin: 0 auto !important;
+      }
+
+      body.is-exporting-pdf .hero {
+        margin-bottom: 14px;
+      }
+
+      body.is-exporting-pdf .app {
+        display: block !important;
+        width: 1180px !important;
+        max-width: none !important;
+        min-height: 0;
+        margin: 0 auto;
+      }
+
+      body.is-exporting-pdf .bottom-grid {
+        grid-template-columns: 1fr !important;
+      }
+
+      body.is-exporting-pdf .surface-card {
+        box-shadow: none !important;
+        padding: 24px 26px 22px;
+      }
+
+      body.is-exporting-pdf .chart-wrap {
+        height: 420px;
+        margin-bottom: 18px;
+      }
+
+      body.is-exporting-pdf .legend {
+        gap: 14px;
+      }
+
+      body.is-exporting-pdf .table-scroll {
+        overflow: visible;
+        border-radius: 0;
+      }
+
+      body.is-exporting-pdf .detail-table {
+        min-width: 0;
+      }
+
+      body.is-exporting-pdf .detail-table thead th:first-child,
+      body.is-exporting-pdf .detail-table tbody td:first-child {
+        position: static;
+        width: 260px;
+        min-width: 260px;
+        max-width: 260px;
+        box-shadow: none;
+      }
+
+      body.is-exporting-pdf .detail-table thead th {
+        position: static;
+      }
+
       .legend {
         display: flex;
         flex-wrap: wrap;
@@ -1371,6 +1454,46 @@
           font-size: 36px;
         }
       }
+
+      @media print {
+        @page {
+          size: A4 landscape;
+          margin: 10mm;
+        }
+
+        html,
+        body {
+          background: #ffffff !important;
+        }
+
+        .top-strip,
+        .top-nav,
+        .sidebar,
+        .chart-actions,
+        .card-grid,
+        .timeline,
+        .end-notes {
+          display: none !important;
+        }
+
+        .app {
+          display: block;
+          min-height: 0;
+        }
+
+        .main {
+          padding: 0 !important;
+        }
+
+        .hero {
+          margin-bottom: 14px;
+        }
+
+        .surface-card {
+          box-shadow: none !important;
+          break-inside: avoid;
+        }
+      }
     </style>
   </head>
   <body>
@@ -1426,11 +1549,20 @@
 
         <section class="card-grid" id="cardGrid"></section>
 
-        <section class="surface-card">
+        <section class="surface-card" id="chartSection">
           <div class="chart-head">
             <div>
               <h2 id="chartTitle">Faaliyet Endeksi</h2>
               <div class="legend" id="legend"></div>
+            </div>
+            <div class="chart-actions">
+              <button
+                class="export-btn chart-export-btn"
+                id="printPdfBtn"
+                type="button"
+              >
+                PDF Olarak İndir
+              </button>
             </div>
           </div>
 
@@ -1465,7 +1597,7 @@
         </section>
 
         <section class="bottom-grid">
-          <div class="surface-card report-card">
+          <div class="surface-card report-card" id="detailTableSection">
             <h3 id="tableTitle">Detay Veri Tablosu</h3>
             <p id="tableDescription">
               Seçilen ana başlığın alt başlıkları, aynı tarih ekseni üzerinde
@@ -1476,7 +1608,7 @@
             </div>
           </div>
 
-          <div class="surface-card insight-card">
+          <div class="surface-card insight-card" id="insightSection">
             <div>
               <h3 id="insightTitle">Seçili Grup</h3>
               <div class="insight-list" id="insightList"></div>
@@ -1537,6 +1669,8 @@
       </main>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="files/js/dis-ticaret-data.js"></script>
     <script>
       const searchParams = new URLSearchParams(window.location.search);
@@ -1667,6 +1801,7 @@
       const insightTitle = document.getElementById("insightTitle");
       const insightList = document.getElementById("insightList");
       const historyText = document.getElementById("historyText");
+      const printPdfBtn = document.getElementById("printPdfBtn");
 
       const maxRangeIndex = Math.max(dataset.dates.length - 1, 0);
       startRange.max = String(maxRangeIndex);
@@ -2357,8 +2492,176 @@
         requestAnimationFrame(notifyEmbedHeight);
       }
 
+      function slugifyFileName(value) {
+        return value
+          .toLocaleLowerCase("tr-TR")
+          .replace(/ı/g, "i")
+          .replace(/ğ/g, "g")
+          .replace(/ü/g, "u")
+          .replace(/ş/g, "s")
+          .replace(/ö/g, "o")
+          .replace(/ç/g, "c")
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-+|-+$/g, "");
+      }
+
+      async function downloadCurrentPdf() {
+        if (!window.html2canvas || !window.jspdf?.jsPDF) {
+          return;
+        }
+
+        const originalLabel = printPdfBtn.textContent;
+        printPdfBtn.disabled = true;
+        printPdfBtn.textContent = "Hazırlanıyor...";
+
+        try {
+          document.body.classList.add("is-exporting-pdf");
+          await new Promise((resolve) => requestAnimationFrame(resolve));
+
+          if (document.fonts?.ready) {
+            await document.fonts.ready;
+          }
+
+          const { jsPDF } = window.jspdf;
+          const pdf = new jsPDF({
+            orientation: "landscape",
+            unit: "pt",
+            format: "a4",
+          });
+
+          const pageWidth = pdf.internal.pageSize.getWidth();
+          const pageHeight = pdf.internal.pageSize.getHeight();
+          const margin = 20;
+          const usableWidth = pageWidth - margin * 2;
+          let currentY = margin;
+
+          async function captureElement(element) {
+            return window.html2canvas(element, {
+              backgroundColor: "#ffffff",
+              scale: 2,
+              useCORS: true,
+              logging: false,
+              windowWidth: Math.ceil(element.scrollWidth),
+            });
+          }
+
+          function addCanvas(canvas, options = {}) {
+            const imageWidth = usableWidth;
+            const imageHeight = (canvas.height * imageWidth) / canvas.width;
+            const imageData = canvas.toDataURL("image/png");
+
+            if (options.newPage) {
+              pdf.addPage();
+              currentY = margin;
+            }
+
+            if (imageHeight <= pageHeight - currentY - margin) {
+              pdf.addImage(
+                imageData,
+                "PNG",
+                margin,
+                currentY,
+                imageWidth,
+                imageHeight,
+              );
+              currentY += imageHeight + 12;
+              return;
+            }
+
+            const maxSectionHeight = pageHeight - margin * 2;
+            if (imageHeight <= maxSectionHeight) {
+              pdf.addPage();
+              currentY = margin;
+              pdf.addImage(
+                imageData,
+                "PNG",
+                margin,
+                currentY,
+                imageWidth,
+                imageHeight,
+              );
+              currentY += imageHeight + 12;
+              return;
+            }
+
+            let sourceY = 0;
+            let remainingHeight = imageHeight;
+            const sourceScale = canvas.height / imageHeight;
+
+            if (currentY !== margin) {
+              pdf.addPage();
+              currentY = margin;
+            }
+
+            while (remainingHeight > 0) {
+              const pageSliceHeight = Math.min(maxSectionHeight, remainingHeight);
+              const sliceCanvas = document.createElement("canvas");
+              sliceCanvas.width = canvas.width;
+              sliceCanvas.height = Math.ceil(pageSliceHeight * sourceScale);
+
+              sliceCanvas
+                .getContext("2d")
+                .drawImage(
+                  canvas,
+                  0,
+                  Math.round(sourceY * sourceScale),
+                  canvas.width,
+                  sliceCanvas.height,
+                  0,
+                  0,
+                  canvas.width,
+                  sliceCanvas.height,
+                );
+
+              pdf.addImage(
+                sliceCanvas.toDataURL("image/png"),
+                "PNG",
+                margin,
+                margin,
+                imageWidth,
+                pageSliceHeight,
+              );
+
+              remainingHeight -= pageSliceHeight;
+              sourceY += pageSliceHeight;
+
+              if (remainingHeight > 0) {
+                pdf.addPage();
+              }
+            }
+
+            currentY = margin + Math.min(maxSectionHeight, imageHeight) + 12;
+          }
+
+          const heroCanvas = await captureElement(document.querySelector(".hero"));
+          const chartCanvas = await captureElement(
+            document.getElementById("chartSection"),
+          );
+          const detailCanvas = await captureElement(
+            document.getElementById("detailTableSection"),
+          );
+          const insightCanvas = await captureElement(
+            document.getElementById("insightSection"),
+          );
+
+          addCanvas(heroCanvas);
+          addCanvas(chartCanvas);
+          addCanvas(detailCanvas, { newPage: true });
+          addCanvas(insightCanvas, { newPage: true });
+
+          const fileNameBase =
+            slugifyFileName(chartTitle.textContent) || "grafik-raporu";
+          pdf.save(`${fileNameBase}.pdf`);
+        } finally {
+          document.body.classList.remove("is-exporting-pdf");
+          printPdfBtn.disabled = false;
+          printPdfBtn.textContent = originalLabel;
+        }
+      }
+
       startRange.addEventListener("input", drawChart);
       endRange.addEventListener("input", drawChart);
+      printPdfBtn.addEventListener("click", downloadCurrentPdf);
 
       renderAll();
     </script>
