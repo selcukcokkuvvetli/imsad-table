@@ -806,6 +806,7 @@
         flex-wrap: wrap;
         gap: 18px;
         margin-top: 12px;
+        position: relative;
       }
 
       .legend-item {
@@ -828,6 +829,36 @@
 
       .legend-item.is-hidden {
         opacity: 0.38;
+      }
+
+      .legend-tooltip {
+        position: fixed;
+        left: 0;
+        top: 0;
+        max-width: 340px;
+        padding: 10px 12px;
+        border-radius: 12px;
+        background: rgba(22, 31, 44, 0.96);
+        color: #ffffff;
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 1.55;
+        box-shadow: 0 18px 36px rgba(10, 16, 24, 0.22);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-4px);
+        transition:
+          opacity 0.18s ease,
+          transform 0.18s ease,
+          visibility 0.18s ease;
+        pointer-events: none;
+        z-index: 9999;
+      }
+
+      .legend-tooltip.is-visible {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
       }
 
       .legend-dot {
@@ -1766,6 +1797,10 @@
       const printPdfBtn = document.getElementById("printPdfBtn");
       const legendHoverText =
         "Endeksin aşağı yönlü hareket etmesi düşüş eğilimini, yukarı yönlü hareket etmesi ise artış eğilimini ifade eder.";
+      const legendTooltip = document.createElement("div");
+      legendTooltip.className = "legend-tooltip";
+      legendTooltip.textContent = legendHoverText;
+      document.body.appendChild(legendTooltip);
 
       const maxRangeIndex = Math.max(dataset.dates.length - 1, 0);
       startRange.max = String(maxRangeIndex);
@@ -2169,10 +2204,11 @@
       }
 
       function renderLegend(group) {
+        hideLegendTooltip();
         legend.innerHTML = group.series
           .map(
             (item) => `
-        <span class="legend-item ${state.hiddenSeries.has(item.name) ? "is-hidden" : ""}" data-series-name="${item.name}" title="${legendHoverText}">
+        <span class="legend-item ${state.hiddenSeries.has(item.name) ? "is-hidden" : ""}" data-series-name="${item.name}">
           <span class="legend-dot" style="background:${getSeriesColor(group, item.name)}"></span>
           ${item.name}
         </span>
@@ -2181,7 +2217,8 @@
           .join("");
 
         legend.querySelectorAll(".legend-item").forEach((item) => {
-          item.addEventListener("click", () => {
+          item.addEventListener("click", (event) => {
+            event.stopPropagation();
             const seriesName = item.dataset.seriesName;
             const group = getGroup();
             const visibleCount = group.series.filter(
@@ -2195,8 +2232,49 @@
             }
 
             drawChart();
+            showLegendTooltip(item);
           });
         });
+      }
+
+      function hideLegendTooltip() {
+        legendTooltip.classList.remove("is-visible");
+        legendTooltip.removeAttribute("data-series-name");
+      }
+
+      function showLegendTooltip(item) {
+        const seriesName = item.dataset.seriesName || "";
+        const isSameItem =
+          legendTooltip.classList.contains("is-visible") &&
+          legendTooltip.dataset.seriesName === seriesName;
+
+        if (isSameItem) {
+          hideLegendTooltip();
+          return;
+        }
+
+        legendTooltip.dataset.seriesName = seriesName;
+        legendTooltip.textContent = legendHoverText;
+        legendTooltip.classList.add("is-visible");
+        legendTooltip.style.left = "12px";
+        legendTooltip.style.top = "12px";
+
+        const itemRect = item.getBoundingClientRect();
+        const tooltipRect = legendTooltip.getBoundingClientRect();
+        let left = itemRect.left + itemRect.width / 2 - tooltipRect.width / 2;
+        left = Math.max(
+          12,
+          Math.min(left, window.innerWidth - tooltipRect.width - 12),
+        );
+
+        let top = itemRect.bottom + 10;
+        if (top + tooltipRect.height > window.innerHeight - 12) {
+          top = itemRect.top - tooltipRect.height - 10;
+        }
+
+        top = Math.max(12, top);
+        legendTooltip.style.left = `${left}px`;
+        legendTooltip.style.top = `${top}px`;
       }
 
       function renderTable(group, start, end) {
@@ -2679,6 +2757,9 @@
       startRange.addEventListener("input", drawChart);
       endRange.addEventListener("input", drawChart);
       printPdfBtn.addEventListener("click", downloadCurrentPdf);
+      document.addEventListener("click", hideLegendTooltip);
+      window.addEventListener("resize", hideLegendTooltip);
+      window.addEventListener("scroll", hideLegendTooltip, true);
 
       renderAll();
     </script>
