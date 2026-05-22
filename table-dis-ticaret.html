@@ -907,6 +907,61 @@
         transform: translateY(0);
       }
 
+      .chart-hover-tooltip {
+        position: fixed;
+        left: 0;
+        top: 0;
+        min-width: 180px;
+        max-width: 320px;
+        padding: 10px 12px;
+        border-radius: 12px;
+        background: rgba(22, 31, 44, 0.96);
+        color: #ffffff;
+        font-size: 12px;
+        line-height: 1.55;
+        box-shadow: 0 18px 36px rgba(10, 16, 24, 0.22);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-4px);
+        transition:
+          opacity 0.18s ease,
+          transform 0.18s ease,
+          visibility 0.18s ease;
+        pointer-events: none;
+        z-index: 9999;
+      }
+
+      .chart-hover-tooltip.is-visible {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .chart-hover-tooltip-title {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+      }
+
+      .chart-hover-tooltip-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .chart-hover-tooltip-label {
+        font-weight: 600;
+        opacity: 0.9;
+      }
+
+      .chart-hover-tooltip-value {
+        font-weight: 800;
+        white-space: nowrap;
+      }
+
       .legend-dot {
         width: 12px;
         height: 12px;
@@ -1851,6 +1906,9 @@
       legendTooltip.className = "legend-tooltip";
       legendTooltip.textContent = legendHoverText;
       document.body.appendChild(legendTooltip);
+      const chartHoverTooltip = document.createElement("div");
+      chartHoverTooltip.className = "chart-hover-tooltip";
+      document.body.appendChild(chartHoverTooltip);
 
       const maxRangeIndex = Math.max(dataset.dates.length - 1, 0);
       startRange.max = String(maxRangeIndex);
@@ -2292,6 +2350,47 @@
         legendTooltip.removeAttribute("data-series-name");
       }
 
+      function hideChartHoverTooltip() {
+        chartHoverTooltip.classList.remove("is-visible");
+        chartHoverTooltip.innerHTML = "";
+      }
+
+      function showChartHoverTooltip(anchorRect, title, seriesRows) {
+        chartHoverTooltip.innerHTML = `
+          <span class="chart-hover-tooltip-title">${title}</span>
+          ${seriesRows
+            .map(
+              (row) => `
+                <div class="chart-hover-tooltip-row">
+                  <span class="chart-hover-tooltip-label">${row.name}</span>
+                  <span class="chart-hover-tooltip-value">${formatNumber(row.value)}</span>
+                </div>
+              `,
+            )
+            .join("")}
+        `;
+
+        chartHoverTooltip.classList.add("is-visible");
+        chartHoverTooltip.style.left = "12px";
+        chartHoverTooltip.style.top = "12px";
+
+        const tooltipRect = chartHoverTooltip.getBoundingClientRect();
+        let left =
+          anchorRect.left + anchorRect.width / 2 - tooltipRect.width / 2;
+        left = Math.max(
+          12,
+          Math.min(left, window.innerWidth - tooltipRect.width - 12),
+        );
+
+        let top = anchorRect.top - tooltipRect.height - 10;
+        if (top < 12) {
+          top = anchorRect.bottom + 10;
+        }
+
+        chartHoverTooltip.style.left = `${left}px`;
+        chartHoverTooltip.style.top = `${top}px`;
+      }
+
       function showLegendTooltip(item) {
         const seriesName = item.dataset.seriesName || "";
         const isSameItem =
@@ -2361,15 +2460,24 @@
         const indexSeries = getIndexSeries(group);
         const latest = getLatest(indexSeries.values);
         const previous = getPrevious(indexSeries.values);
-        const latestSeriesValues = group.series.map((item) => ({
-          name: item.name,
-          value: getLatest(item.values),
-        }));
-        const highest = [...latestSeriesValues].sort(
-          (a, b) => b.value - a.value,
+        const comparisonSeries =
+          group.series.filter((item) => item.name !== "Endeks").length > 0
+            ? group.series.filter((item) => item.name !== "Endeks")
+            : group.series;
+        const monthlyChanges = comparisonSeries.map((item) => {
+          const latestValue = getLatest(item.values);
+          const previousValue = getPrevious(item.values);
+          return {
+            name: item.name,
+            latest: latestValue,
+            change: latestValue - previousValue,
+          };
+        });
+        const strongestPositive = [...monthlyChanges].sort(
+          (a, b) => b.change - a.change,
         )[0];
-        const lowest = [...latestSeriesValues].sort(
-          (a, b) => a.value - b.value,
+        const strongestNegative = [...monthlyChanges].sort(
+          (a, b) => a.change - b.change,
         )[0];
         insightTitle.textContent = group.title;
         insightList.innerHTML = `
@@ -2379,20 +2487,21 @@
           <span class="insight-note">${formatSigned(latest - previous)} puan aylık değişim</span>
         </div>
         <div class="insight-item">
-          <span class="insight-label">En Yüksek Alt Başlık</span>
-          <span class="insight-value">${formatNumber(highest.value)}</span>
-          <span class="insight-note">${highest.name}</span>
+          <span class="insight-label">Aylık En Güçlü Artış</span>
+          <span class="insight-value">${formatSigned(strongestPositive.change)}</span>
+          <span class="insight-note">${strongestPositive.name} | ${formatNumber(strongestPositive.latest)}</span>
         </div>
         <div class="insight-item">
-          <span class="insight-label">En Düşük Alt Başlık</span>
-          <span class="insight-value">${formatNumber(lowest.value)}</span>
-          <span class="insight-note">${lowest.name}</span>
+          <span class="insight-label">Aylık En Güçlü Düşüş</span>
+          <span class="insight-value">${formatSigned(strongestNegative.change)}</span>
+          <span class="insight-note">${strongestNegative.name} | ${formatNumber(strongestNegative.latest)}</span>
         </div>
       `;
       }
 
       function drawChart() {
         clampRange();
+        hideChartHoverTooltip();
 
         const group = getGroup();
         const visibleSeries = getVisibleSeries(group);
@@ -2521,6 +2630,35 @@
 
         xLabels.forEach((label, index) => {
           const x = left + stepX * index;
+          const hitWidth =
+            xLabels.length > 1 ? Math.max(48, stepX) : Math.max(72, plotW);
+          const hitX =
+            index === 0
+              ? left - 4
+              : index === xLabels.length - 1
+                ? right - hitWidth + 4
+                : x - hitWidth / 2;
+          const hoverRect = svgNode("rect", {
+            x: hitX.toFixed(2),
+            y: "308",
+            width: hitWidth.toFixed(2),
+            height: "28",
+            fill: "transparent",
+            style: "pointer-events:all;cursor:default;",
+          });
+          hoverRect.addEventListener("mouseenter", (event) => {
+            showChartHoverTooltip(
+              event.target.getBoundingClientRect(),
+              label.toUpperCase(),
+              slicedSeries.map((series) => ({
+                name: series.name,
+                value: series.values[index],
+              })),
+            );
+          });
+          hoverRect.addEventListener("mouseleave", hideChartHoverTooltip);
+          chartSvg.appendChild(hoverRect);
+
           chartSvg.appendChild(
             svgNode(
               "text",
@@ -2537,6 +2675,7 @@
                 "font-size": "11",
                 "font-weight": "900",
                 class: "chart-axis-label",
+                style: "pointer-events:none;",
               },
               label.toUpperCase(),
             ),
@@ -2810,6 +2949,8 @@
       document.addEventListener("click", hideLegendTooltip);
       window.addEventListener("resize", hideLegendTooltip);
       window.addEventListener("scroll", hideLegendTooltip, true);
+      window.addEventListener("resize", hideChartHoverTooltip);
+      window.addEventListener("scroll", hideChartHoverTooltip, true);
 
       renderAll();
     </script>
