@@ -866,7 +866,7 @@
         left: 0;
         top: 0;
         min-width: 180px;
-        max-width: 320px;
+        max-width: 420px;
         padding: 10px 12px;
         border-radius: 12px;
         background: rgba(22, 31, 44, 0.96);
@@ -914,6 +914,16 @@
       .chart-hover-tooltip-value {
         font-weight: 800;
         white-space: nowrap;
+      }
+
+      .chart-hover-tooltip-body {
+        display: block;
+        font-weight: 600;
+      }
+
+      .chart-line-hitarea {
+        pointer-events: stroke;
+        cursor: help;
       }
 
       .legend-dot {
@@ -1728,6 +1738,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="files/js/endeks-data.js"></script>
+    <script src="files/js/endeks-line-descriptions.js"></script>
     <script>
       const searchParams = new URLSearchParams(window.location.search);
       const requestedHeroTitle = searchParams.get("heroTitle");
@@ -1782,6 +1793,7 @@
         "#0891b2",
       ];
       const NS = "http://www.w3.org/2000/svg";
+      const lineDescriptions = window.imsadEndeksLineDescriptions || {};
 
       function parseCsv(raw) {
         const lines = raw.trim().split(/\r?\n/);
@@ -2054,6 +2066,34 @@
           (item) => item.name === seriesName,
         );
         return linePalette[(index < 0 ? 0 : index) % linePalette.length];
+      }
+
+      function findByNormalizedKey(source, key) {
+        if (!source) {
+          return null;
+        }
+
+        const normalizedKey = normalizeTitle(key);
+        const match = Object.entries(source).find(
+          ([candidate]) => normalizeTitle(candidate) === normalizedKey,
+        );
+        return match ? match[1] : null;
+      }
+
+      function getLineDescription(groupTitle, seriesName) {
+        const groupDescriptions =
+          lineDescriptions[groupTitle] ||
+          findByNormalizedKey(lineDescriptions, groupTitle);
+
+        if (!groupDescriptions) {
+          return "";
+        }
+
+        return (
+          groupDescriptions[seriesName] ||
+          findByNormalizedKey(groupDescriptions, seriesName) ||
+          ""
+        );
       }
 
       function getVisibleSeries(group) {
@@ -2341,6 +2381,31 @@
         chartHoverTooltip.style.top = `${top}px`;
       }
 
+      function showLineDescriptionTooltip(event, title, description) {
+        chartHoverTooltip.innerHTML = `
+          <span class="chart-hover-tooltip-title">${title}</span>
+          <span class="chart-hover-tooltip-body">${description}</span>
+        `;
+
+        chartHoverTooltip.classList.add("is-visible");
+        chartHoverTooltip.style.left = "12px";
+        chartHoverTooltip.style.top = "12px";
+
+        const tooltipRect = chartHoverTooltip.getBoundingClientRect();
+        let left = event.clientX + 14;
+        if (left + tooltipRect.width > window.innerWidth - 12) {
+          left = event.clientX - tooltipRect.width - 14;
+        }
+
+        let top = event.clientY + 14;
+        if (top + tooltipRect.height > window.innerHeight - 12) {
+          top = event.clientY - tooltipRect.height - 14;
+        }
+
+        chartHoverTooltip.style.left = `${Math.max(12, left)}px`;
+        chartHoverTooltip.style.top = `${Math.max(12, top)}px`;
+      }
+
       function showLegendTooltip(item) {
         const seriesName = item.dataset.seriesName || "";
         const isSameItem =
@@ -2545,8 +2610,10 @@
 
         slicedSeries.forEach((series, index) => {
           const color = getSeriesColor(group, series.name);
+          const lineDescription = getLineDescription(group.title, series.name);
+          const linePathData = pathFor(series.values);
           const linePath = svgNode("path", {
-            d: pathFor(series.values),
+            d: linePathData,
             fill: "none",
             stroke: color,
             "stroke-width": series.name === "Endeks" ? "4" : "2.6",
@@ -2576,6 +2643,35 @@
               }),
             );
           });
+
+          if (lineDescription) {
+            const hitPath = svgNode("path", {
+              d: linePathData,
+              fill: "none",
+              stroke: "#000000",
+              "stroke-width": series.name === "Endeks" ? "18" : "14",
+              "stroke-linecap": "round",
+              "stroke-linejoin": "round",
+              opacity: "0",
+              class: "chart-line-hitarea",
+            });
+            hitPath.addEventListener("mouseenter", (event) => {
+              showLineDescriptionTooltip(
+                event,
+                series.name,
+                lineDescription,
+              );
+            });
+            hitPath.addEventListener("mousemove", (event) => {
+              showLineDescriptionTooltip(
+                event,
+                series.name,
+                lineDescription,
+              );
+            });
+            hitPath.addEventListener("mouseleave", hideChartHoverTooltip);
+            chartSvg.appendChild(hitPath);
+          }
         });
 
         xLabels.forEach((label, index) => {
