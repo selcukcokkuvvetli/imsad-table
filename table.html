@@ -2103,6 +2103,27 @@
         return visible.length ? visible : [getIndexSeries(group)];
       }
 
+      function getXAxisLabelInterval(count) {
+        if (count <= 12) {
+          return 1;
+        }
+
+        if (count <= 24) {
+          return 2;
+        }
+
+        if (count <= 48) {
+          return 4;
+        }
+
+        return Math.ceil(count / 12);
+      }
+
+      function shouldRenderXAxisLabel(index, count) {
+        const interval = getXAxisLabelInterval(count);
+        return index === 0 || index === count - 1 || index % interval === 0;
+      }
+
       function getLatest(values) {
         return values[values.length - 1];
       }
@@ -2705,27 +2726,29 @@
           hoverRect.addEventListener("mouseleave", hideChartHoverTooltip);
           chartSvg.appendChild(hoverRect);
 
-          chartSvg.appendChild(
-            svgNode(
-              "text",
-              {
-                x,
-                y: 326,
-                "text-anchor":
-                  index === 0
-                    ? "start"
-                    : index === xLabels.length - 1
-                      ? "end"
-                      : "middle",
-                fill: "#a0acbd",
-                "font-size": "11",
-                "font-weight": "900",
-                class: "chart-axis-label",
-                style: "pointer-events:none;",
-              },
-              label.toUpperCase(),
-            ),
-          );
+          if (shouldRenderXAxisLabel(index, xLabels.length)) {
+            chartSvg.appendChild(
+              svgNode(
+                "text",
+                {
+                  x,
+                  y: 326,
+                  "text-anchor":
+                    index === 0
+                      ? "start"
+                      : index === xLabels.length - 1
+                        ? "end"
+                        : "middle",
+                  fill: "#a0acbd",
+                  "font-size": "11",
+                  "font-weight": "900",
+                  class: "chart-axis-label",
+                  style: "pointer-events:none;",
+                },
+                label.toUpperCase(),
+              ),
+            );
+          }
         });
 
         requestAnimationFrame(() => {
